@@ -27,7 +27,7 @@ import java.util.Scanner;
 /**
  * This class modifies the arraylist
  */
-public class Customer {
+public class CustomerLogic {
 
 
     private Scanner consoleInput = new Scanner(System.in);
@@ -148,7 +148,7 @@ public class Customer {
             type = consoleInput.nextLine();
 
 
-            //Get user id if necessary (Admin)
+            //Get user id if necessary (AdminLogic)
             if (userId.equalsIgnoreCase("")) {
 
                 System.out.println("Enter an existing userID for this account (or 0 to generate a new id): ");

@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * This class modifies the database and has access to all accounts. It extends the Customer class for code reuse.
+ * This class modifies the database and has access to all accounts. It extends the CustomerLogic class for code reuse.
  */
-public class Admin extends Customer {
+public class AdminLogic extends CustomerLogic {
 
     protected Scanner consoleInput = new Scanner(System.in);
 

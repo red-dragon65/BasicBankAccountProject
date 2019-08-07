@@ -87,11 +87,11 @@ public class Bank {
         }
 
         //TODO: Use this test code to view all account data from the file.
-        /*
+
         //Verify list data
         for (Account a : accountDatabase) {
             System.out.println(a);
-        }*/
+        }
 
 
         //Hold user data
@@ -110,8 +110,8 @@ public class Bank {
         Scanner consoleInput = new Scanner(System.in);
 
         //Hold the database manipulators
-        Customer customer = new Customer();
-        Admin admin = new Admin();
+        CustomerLogic customerLogic = new CustomerLogic();
+        AdminLogic adminLogic = new AdminLogic();
 
 
 
@@ -124,7 +124,7 @@ public class Bank {
             try {
 
                 //Get account type
-                System.out.println("Enter user type (Admin or Customer): ");
+                System.out.println("Enter user type (AdminLogic or CustomerLogic): ");
                 System.out.println("(Enter 'exit' to close the program)");
                 userType = consoleInput.nextLine();
 
@@ -162,7 +162,7 @@ public class Bank {
         */
         if (userType.equalsIgnoreCase("admin")) {
 
-            //Login admin
+            //Login adminLogic
             while (!login) {
 
                 //Attempt to get input
@@ -203,7 +203,7 @@ public class Bank {
             }
 
 
-            //Show admin selection
+            //Show adminLogic selection
             while (login) {
 
                 //Show selection
@@ -242,67 +242,67 @@ public class Bank {
                 }
 
 
-                //Run Admin code
+                //Run AdminLogic code
                 switch (selectionParsed) {
 
                     case 1:
 
                         //List all accounts in the bank
-                        admin.listAllAccounts(accountDatabase);
+                        adminLogic.listAllAccounts(accountDatabase);
 
                         break;
                     case 2:
 
                         //This lists certain accounts based on user id
-                        admin.listAccountsUserID(accountDatabase);
+                        adminLogic.listAccountsUserID(accountDatabase);
 
                         break;
                     case 3:
 
                         //This lists certain accounts based on user name
-                        admin.listAccountsUsername(accountDatabase);
+                        adminLogic.listAccountsUsername(accountDatabase);
 
                         break;
                     case 4:
 
                         //Delete the specified account
-                        admin.deleteAccount(accountDatabase);
+                        adminLogic.deleteAccount(accountDatabase);
 
                         break;
                     case 5:
 
                         //Create a new account
-                        admin.createAccount(accountDatabase, "");
+                        adminLogic.createAccount(accountDatabase, "");
 
                         break;
                     case 6:
 
                         //Deposit money into the specified account
-                        admin.deposit(accountDatabase);
+                        adminLogic.deposit(accountDatabase);
 
                         break;
                     case 7:
 
                         //Withdraw money from the specified account
-                        admin.withdraw(accountDatabase);
+                        adminLogic.withdraw(accountDatabase);
 
                         break;
                     case 8:
 
                         //Get info from specified account
-                        admin.requestAccountSummary(accountDatabase);
+                        adminLogic.requestAccountSummary(accountDatabase);
 
                         break;
                     case 9:
 
                         //Get transaction history from specified account
-                        admin.requestTransactionDetails(accountDatabase);
+                        adminLogic.requestTransactionDetails(accountDatabase);
 
                         break;
                     case 10:
 
                         //Send money from a specified account to another specified account
-                        admin.transferMoney(accountDatabase);
+                        adminLogic.transferMoney(accountDatabase);
 
                         break;
 
@@ -319,11 +319,11 @@ public class Bank {
 
 
         /*
-        Loop through customer login attempts
+        Loop through customerLogic login attempts
          */
         if (userType.equalsIgnoreCase("customer")) {
 
-            //Loop through customer login attempts
+            //Loop through customerLogic login attempts
             while (!login) {
 
                 //Attempt to get input
@@ -440,56 +440,56 @@ public class Bank {
                 }
 
 
-                //Run customer code
+                //Run customerLogic code
                 switch (selectionParsed) {
 
 
                     case 1:
 
                         //Show accounts tied to userId
-                        customer.listMyAccounts(accountDatabase, userIdParsed);
+                        customerLogic.listMyAccounts(accountDatabase, userIdParsed);
 
                         break;
                     case 2:
 
                         //Delete account specified
-                        customer.deleteAccount(accountDatabase, userIdParsed);
+                        customerLogic.deleteAccount(accountDatabase, userIdParsed);
 
                         break;
                     case 3:
 
                         //Create a new account
-                        customer.createAccount(accountDatabase, userId);
+                        customerLogic.createAccount(accountDatabase, userId);
 
                         break;
                     case 4:
 
                         //Deposit money to the account specified
-                        customer.deposit(accountDatabase, userIdParsed);
+                        customerLogic.deposit(accountDatabase, userIdParsed);
 
                         break;
                     case 5:
 
                         //Withdraw money from the account specified
-                        customer.withdraw(accountDatabase, userIdParsed);
+                        customerLogic.withdraw(accountDatabase, userIdParsed);
 
                         break;
                     case 6:
 
                         //Get specified accounts activity
-                        customer.requestAccountDetails(accountDatabase, userIdParsed, "Account summary");
+                        customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Account summary");
 
                         break;
                     case 7:
 
                         //Get specified accounts transaction history
-                        customer.requestAccountDetails(accountDatabase, userIdParsed, "Transaction details");
+                        customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Transaction details");
 
                         break;
                     case 8:
 
                         //Send money from the specified account to another specified account
-                        customer.transferMoney(accountDatabase, userIdParsed);
+                        customerLogic.transferMoney(accountDatabase, userIdParsed);
 
                         break;
 
