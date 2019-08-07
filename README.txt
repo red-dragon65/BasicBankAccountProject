@@ -164,6 +164,14 @@ Setup the button listeners:
 - Pass the J components to the correct methods
 
 
+Documentation:
+- Add comments to new code
+- Document that covers what we did
+- Screen shots showing how to use the program
+- Jar file submission
+- Submit project file
+
+
 
 
 
