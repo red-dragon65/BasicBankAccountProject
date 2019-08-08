@@ -164,6 +164,18 @@ Setup the button listeners:
 - Pass the J components to the correct methods
 
 
+- Implement 'TransferWorker' class
+- Implement 'Runnable' for 'TransferWorker'
+- Allow 'TransferWorker' to transfer money from one account to another
+- Calculate the total amount from all bank accounts once transfer is complete
+
+- Implement 'TransferDriver' class
+- Allow the class to create threads of 'TransferWorker' objects
+
+- Test GUI code
+- Test Multi-threading code
+
+
 Documentation:
 - Add comments to new code
 - Document that covers what we did
