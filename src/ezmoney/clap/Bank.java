@@ -1,54 +1,45 @@
-/*
-
-Author: Brandyn Call
-Author: Mujtaba Ashfaq
-
-Created: 7/9/19
-Last Edited: 7/17/19
-
-About:
-CS 3230 Midterm project. It is an application that mimics the way banking software would function.
-The user can access the system using an admin account or a customer account. Customers can manipulate their
-accounts and admins can manipulate all accounts.
-
-Execution:
-Run the driver class 'Bank'. One first execution, the database will not be initialized. In order to populate the
-database, login as the admin using the pin 1234. The database will not be saved unless the user exits the program
-using the 'exit' term in a main menu. Once the database has been initialized, the customers can login to access the
-accounts that were created by the admin.
-
-Note:
-Use this test code to make sure all accounts are being populated.
-Check the todo below.
-
-//Verify list data
-for (Account a : accountDatabase) {
-    System.out.println(a);
-}
-
- */
-
 package ezmoney.clap;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-/**
- * The driver class that gets input from the console and passes it to the correct class.
- */
 public class Bank {
 
-    public static void main(String[] args) {
+    //Hold all the accounts in the bank
+    private ArrayList<Account> accountDatabase = new ArrayList<Account>();
 
-        //Hold all the accounts in the bank
-        ArrayList<Account> accountDatabase = new ArrayList<Account>();
+    //Hold input file
+    private InputStream inputFile;
 
-        //Hold input file
-        InputStream inputFile;
 
+    //Hold user data
+    private boolean login = false;
+    private String userId = "";
+    private int userIdParsed = 0;
+    private int pinParsed = 0;
+    private String selection = "";
+    private int selectionParsed = 0;
+
+    private String userType = "";
+    private int defaultAdminAccount = 1000;
+    private int defaultAdminPassword = 1234;
+
+    //Get input
+    private Scanner consoleInput = new Scanner(System.in);
+
+    //Hold the database manipulators
+    private CustomerLogic customerLogic = new CustomerLogic();
+    private AdminLogic adminLogic = new AdminLogic();
+    private CustomerUI customerUI = new CustomerUI();
+    private AdminUI adminUI = new AdminUI();
+
+
+    public Bank() {
 
         //Deserialize file (load accountDatabase)
         try {
@@ -86,419 +77,378 @@ public class Bank {
 
         }
 
-        //TODO: Use this test code to view all account data from the file.
 
+        //TODO: Use this test code to view all account data from the file.
         //Verify list data
         for (Account a : accountDatabase) {
             System.out.println(a);
         }
 
+    }
 
-        //Hold user data
-        boolean login = false;
-        String userId = "";
-        int userIdParsed = 0;
-        String pin = "";
-        int pinParsed = 0;
-        String selection = "";
-        int selectionParsed = 0;
-
-        String userType = "";
-        int defaultAdminPassword = 1234;
-
-        //Get input
-        Scanner consoleInput = new Scanner(System.in);
-
-        //Hold the database manipulators
-        CustomerLogic customerLogic = new CustomerLogic();
-        AdminLogic adminLogic = new AdminLogic();
+    public void login(JTextField[] fields, JTextArea outputArea) {
 
 
-
-        /*
-        Get the account type
-         */
-        while (true) {
+        if (fields[0].getText().equalsIgnoreCase("admin")) {
 
             //Attempt to get input
             try {
 
-                //Get account type
-                System.out.println("Enter user type (AdminLogic or CustomerLogic): ");
-                System.out.println("(Enter 'exit' to close the program)");
-                userType = consoleInput.nextLine();
+                //Get account number
+                userIdParsed = Integer.parseInt(fields[1].getText());
 
-                //End the program if necessary
-                endProgram(userType, accountDatabase);
+                //Get pin
+                pinParsed = Integer.parseInt(fields[2].getText());
+
+            } catch (Exception e) {
+
+                //Get input again if input could not be validated
+                outputArea.append("\nIncorrect input for account or pin!");
+            }
+
+
+            //The password matches
+            if (pinParsed == defaultAdminPassword && userIdParsed == defaultAdminAccount) {
+
+                //Break this loop
+                outputArea.append("\nLogging in... Welcome!\n");
+                login = true;
+                userType = "admin";
+
+            } else {
+
+                outputArea.append("\nInvalid credentials!");
+            }
+
+
+        } else if (fields[0].getText().equalsIgnoreCase("customer")) {
+
+
+            //Attempt to get input
+            try {
+
+                //Parse input
+                userIdParsed = Integer.parseInt(fields[1].getText());
+
+                //Parse input
+                pinParsed = Integer.parseInt(fields[2].getText());
 
 
             } catch (Exception e) {
 
                 //Get input again if input could not be validated
-                System.out.println("Incorrect input!");
-                continue;
+                outputArea.append("\nIncorrect input for account or pin!");
             }
 
 
-            //Check type
-            if (!userType.equalsIgnoreCase("admin") && !userType.equalsIgnoreCase("customer")) {
+            //See if account exists
+            //Loop through all accounts
+            for (Account a : accountDatabase) {
 
-                //Neither account type selected
-                System.out.println("Incorrect value entered!");
+                //See if name matches
+                if (a.getUserID() == userIdParsed) {
 
-            } else {
+                    //Found an account with the same name!
 
-                //Account selected
-                //Move onto next code
-                break;
+                    //See if pin matches
+                    if (a.getPin() == pinParsed) {
+
+                        //Notify account has been found
+                        login = true;
+                        outputArea.append("\nLogging in... Welcome!\n");
+                        userType = "customer";
+                        break;
+                    }
+
+                }
             }
 
+
+            //Break loop if the account was found
+            if (!login) {
+
+                //Tell user about login attempt
+                outputArea.append("\nThe account was not found!");
+            }
+
+
+        } else {
+
+            outputArea.append("\nThe user type was incorrect!");
         }
+    }
 
 
+    public boolean isLoggedIn() {
+        return login;
+    }
 
-        /*
-        Run code for bank teller
-        */
+
+    public void showSelectionList(JTextArea outputArea) {
+
+
         if (userType.equalsIgnoreCase("admin")) {
 
-            //Login adminLogic
-            while (!login) {
 
-                //Attempt to get input
-                try {
-
-                    //Get the pin
-                    System.out.println("\nEnter the Admin pin: ");
-                    System.out.println("Enter 'exit' to close the program.");
-
-                    pin = consoleInput.nextLine();
-
-                    //Exit the program if necessary
-                    endProgram(pin, accountDatabase);
-
-                    //Parse input
-                    pinParsed = Integer.parseInt(pin);
-
-                } catch (Exception e) {
-
-                    //Get input again if input could not be validated
-                    System.out.println("Incorrect input!");
-                    continue;
-                }
+            //Show selection
+            outputArea.append("\nEnter a selection:");
+            outputArea.append("\n1. List all accounts");
+            outputArea.append("\n2. List Accounts using user id");
+            outputArea.append("\n3. List Accounts using username");
+            outputArea.append("\n4. Delete Account");
+            outputArea.append("\n5. Create Account");
+            outputArea.append("\n6. Deposit Money into an account");
+            outputArea.append("\n7. Withdraw money from an account");
+            outputArea.append("\n8. Request an account summary");
+            outputArea.append("\n9. Request account transaction details");
+            outputArea.append("\n10. Transfer money between accounts");
 
 
-                //The password matches
-                if (pinParsed == defaultAdminPassword) {
 
-                    //Break this loop
-                    System.out.println("\nLogging in... Welcome!\n");
-                    login = true;
-                    break;
+        } else if (userType.equalsIgnoreCase("customer")) {
 
-                } else {
-
-                    System.out.println("Invalid credentials!");
-                }
-            }
-
-
-            //Show adminLogic selection
-            while (login) {
-
-                //Show selection
-                System.out.println("\nEnter a selection:");
-                System.out.println("1. List all accounts");
-                System.out.println("2. List Accounts using user id");
-                System.out.println("3. List Accounts using username");
-                System.out.println("4. Delete Account");
-                System.out.println("5. Create Account");
-                System.out.println("6. Deposit Money into an account");
-                System.out.println("7. Withdraw money from an account");
-                System.out.println("8. Request an account summary");
-                System.out.println("9. Request account transaction details");
-                System.out.println("10. Transfer money between accounts");
-
-                System.out.println("Selection: ");
-
-
-                //Attempt to get input
-                try {
-
-                    //Get input
-                    selection = consoleInput.nextLine();
-
-                    //Exit the program if necessary
-                    endProgram(selection, accountDatabase);
-
-                    //Parse input
-                    selectionParsed = Integer.parseInt(selection);
-
-                } catch (Exception e) {
-
-                    //Get input again if input could not be validated
-                    System.out.println("Incorrect input!");
-                    continue;
-                }
-
-
-                //Run AdminLogic code
-                switch (selectionParsed) {
-
-                    case 1:
-
-                        //List all accounts in the bank
-                        adminLogic.listAllAccounts(accountDatabase);
-
-                        break;
-                    case 2:
-
-                        //This lists certain accounts based on user id
-                        adminLogic.listAccountsUserID(accountDatabase);
-
-                        break;
-                    case 3:
-
-                        //This lists certain accounts based on user name
-                        adminLogic.listAccountsUsername(accountDatabase);
-
-                        break;
-                    case 4:
-
-                        //Delete the specified account
-                        adminLogic.deleteAccount(accountDatabase);
-
-                        break;
-                    case 5:
-
-                        //Create a new account
-                        adminLogic.createAccount(accountDatabase, "");
-
-                        break;
-                    case 6:
-
-                        //Deposit money into the specified account
-                        adminLogic.deposit(accountDatabase);
-
-                        break;
-                    case 7:
-
-                        //Withdraw money from the specified account
-                        adminLogic.withdraw(accountDatabase);
-
-                        break;
-                    case 8:
-
-                        //Get info from specified account
-                        adminLogic.requestAccountSummary(accountDatabase);
-
-                        break;
-                    case 9:
-
-                        //Get transaction history from specified account
-                        adminLogic.requestTransactionDetails(accountDatabase);
-
-                        break;
-                    case 10:
-
-                        //Send money from a specified account to another specified account
-                        adminLogic.transferMoney(accountDatabase);
-
-                        break;
-
-                    default:
-                        System.out.println("The entered selection was not in the list!");
-                }
-
-
-            }
+            //Show selection
+            outputArea.append("\nEnter a selection:");
+            outputArea.append("\n1. List my Accounts");
+            outputArea.append("\n2. Delete my Account");
+            outputArea.append("\n3. Create a new Account");
+            outputArea.append("\n4. Deposit Money into my account");
+            outputArea.append("\n5. Withdraw money from my account");
+            outputArea.append("\n6. Request an account summary");
+            outputArea.append("\n7. Request my account transaction details");
+            outputArea.append("\n8. Transfer money to another account");
 
 
         }
+    }
 
 
+    public void calculateInput(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
-        /*
-        Loop through customerLogic login attempts
-         */
-        if (userType.equalsIgnoreCase("customer")) {
+        if (userType.equalsIgnoreCase("admin")) {
 
-            //Loop through customerLogic login attempts
-            while (!login) {
+            runAdmin(selection, fields, labels, outputArea);
 
-                //Attempt to get input
-                try {
+        } else if (userType.equalsIgnoreCase("customer")) {
 
-                    //Get credentials
-                    System.out.println("\n-----LOGIN-----");
+            runCustomer(selection, fields, labels, outputArea);
+        }
 
-                    System.out.println("Enter UserID:");
+    }
 
-                    //Hold input
-                    userId = consoleInput.nextLine();
 
-                    //End program if necessary
-                    endProgram(userId, accountDatabase);
+    public void setSelected(JTextField field, JTextArea outputArea) {
 
-                    //Parse input
-                    userIdParsed = Integer.parseInt(userId);
+        try {
 
+            selectionParsed = Integer.parseInt(field.getText());
 
-                    System.out.println("Enter Pin:");
+        } catch (Exception e) {
 
-                    //Hold input
-                    pin = consoleInput.nextLine();
+            outputArea.append("\nInvalid input detected!");
+        }
+    }
 
-                    //End program if necessary
-                    endProgram(pin, accountDatabase);
 
-                    //Parse input
-                    pinParsed = Integer.parseInt(pin);
+    public void setLoginUI(JTextField[] fields, JLabel[] labels) {
 
-                } catch (Exception e) {
+        labels[0].setText("Enter user type: ");
+        fields[0].setVisible(true);
 
-                    //Get input again if input could not be validated
-                    System.out.println("Incorrect input!");
-                    continue;
-                }
+        labels[1].setText("Enter user ID: ");
+        fields[1].setVisible(true);
 
+        labels[2].setText("Enter pin: ");
+        fields[2].setVisible(true);
 
-                //See if account exists
-                //Loop through all accounts
-                for (Account a : accountDatabase) {
 
-                    //See if name matches
-                    if (a.getUserID() == userIdParsed) {
+    }
 
-                        //Found an account with the same name!
 
-                        //See if pin matches
-                        if (a.getPin() == pinParsed) {
+    public void runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
-                            //Notify account has been found
-                            login = true;
-                            System.out.println("\nLogging in... Welcome!\n");
-                            break;
-                        }
+        //Run AdminLogic code
+        switch (selectionParsed) {
 
-                    }
-                }
+            case 1:
 
+                //List all accounts in the bank
+                if (!selection)
+                    adminLogic.listAllAccounts(accountDatabase, fields, outputArea);
+                else
+                    adminUI.listAllAccounts(fields, labels, outputArea);
 
-                //Break loop if the account was found
-                if (login) {
+                break;
+            case 2:
 
-                    //Tell user about login attempt
-                    System.out.println("The account was found!");
-                    break;
+                //This lists certain accounts based on user id
+                if (!selection)
+                    adminLogic.listAccountsUserID(accountDatabase, fields, outputArea);
+                else
+                    adminUI.listAccountsUserID(fields, labels, outputArea);
 
-                } else {
+                break;
+            case 3:
 
-                    //Tell user about login attempt
-                    System.out.println("The account was not found!");
-                }
+                //This lists certain accounts based on user name
+                if (!selection)
+                    adminLogic.listAccountsUsername(accountDatabase, fields, outputArea);
+                else
+                    adminUI.listAccountsUsername(fields, labels, outputArea);
 
+                break;
+            case 4:
 
-            }
+                //Delete the specified account
+                if (!selection)
+                    adminLogic.deleteAccount(accountDatabase, fields, outputArea);
+                else
+                    adminUI.deleteAccount(fields, labels, outputArea);
 
+                break;
+            case 5:
 
-            //Loop through selection options
-            while (login) {
+                //Create a new account
+                if (!selection)
+                    adminLogic.createAccount(accountDatabase, "", fields, outputArea);
+                else
+                    adminUI.createAccount(fields, labels, outputArea);
 
-                //Show selection
-                System.out.println("\nEnter a selection:");
-                System.out.println("1. List my Accounts");
-                System.out.println("2. Delete my Account");
-                System.out.println("3. Create a new Account");
-                System.out.println("4. Deposit Money into my account");
-                System.out.println("5. Withdraw money from my account");
-                System.out.println("6. Request an account summary");
-                System.out.println("7. Request my account transaction details");
-                System.out.println("8. Transfer money to another account");
+                break;
+            case 6:
 
-                System.out.println("Selection: ");
+                //Deposit money into the specified account
+                if (!selection)
+                    adminLogic.deposit(accountDatabase, fields, outputArea);
+                else
+                    adminUI.deposit(fields, labels, outputArea);
 
+                break;
+            case 7:
 
-                //Attempt to get input
-                try {
+                //Withdraw money from the specified account
+                if (!selection)
+                    adminLogic.withdraw(accountDatabase, fields, outputArea);
+                else
+                    adminUI.withdraw(fields, labels, outputArea);
 
-                    //Get input
-                    selection = consoleInput.nextLine();
+                break;
+            case 8:
 
-                    //Exit the program if necessary
-                    endProgram(selection, accountDatabase);
+                //Get info from specified account
+                if (!selection)
+                    adminLogic.requestAccountSummary(accountDatabase, fields, outputArea);
+                else
+                    adminUI.requestAccountSummary(fields, labels, outputArea);
 
-                    //Parse input
-                    selectionParsed = Integer.parseInt(selection);
+                break;
+            case 9:
 
+                //Get transaction history from specified account
+                if (!selection)
+                    adminLogic.requestTransactionDetails(accountDatabase, fields, outputArea);
+                else
+                    adminUI.requestTransactionDetails(fields, labels, outputArea);
 
-                } catch (Exception e) {
+                break;
+            case 10:
 
-                    //Get input again if input could not be validated
-                    System.out.println("Incorrect input!");
-                    continue;
-                }
+                //Send money from a specified account to another specified account
+                if (!selection)
+                    adminLogic.transferMoney(accountDatabase, fields, outputArea);
+                else
+                    adminUI.transferMoney(fields, labels, outputArea);
 
+                break;
 
-                //Run customerLogic code
-                switch (selectionParsed) {
+            default:
+                outputArea.append("The entered selection was not in the list!");
+        }
 
 
-                    case 1:
+    }
 
-                        //Show accounts tied to userId
-                        customerLogic.listMyAccounts(accountDatabase, userIdParsed);
+    public void runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
-                        break;
-                    case 2:
+        //Run customerLogic code
+        switch (selectionParsed) {
 
-                        //Delete account specified
-                        customerLogic.deleteAccount(accountDatabase, userIdParsed);
 
-                        break;
-                    case 3:
+            case 1:
 
-                        //Create a new account
-                        customerLogic.createAccount(accountDatabase, userId);
+                //Show accounts tied to userId
+                if (!selection)
+                    customerLogic.listMyAccounts(accountDatabase, userIdParsed, fields, outputArea);
+                else
+                    customerUI.listMyAccounts(fields, labels, outputArea);
 
-                        break;
-                    case 4:
+                break;
+            case 2:
 
-                        //Deposit money to the account specified
-                        customerLogic.deposit(accountDatabase, userIdParsed);
+                //Delete account specified
+                if (!selection)
+                    customerLogic.deleteAccount(accountDatabase, userIdParsed, fields, outputArea);
+                else
+                    customerUI.deleteAccount(fields, labels);
 
-                        break;
-                    case 5:
+                break;
+            case 3:
 
-                        //Withdraw money from the account specified
-                        customerLogic.withdraw(accountDatabase, userIdParsed);
+                //Create a new account
+                if (!selection)
+                    customerLogic.createAccount(accountDatabase, userId, fields, outputArea);
+                else
+                    customerUI.createAccount(fields, labels, outputArea);
 
-                        break;
-                    case 6:
+                break;
+            case 4:
 
-                        //Get specified accounts activity
-                        customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Account summary");
+                //Deposit money to the account specified
+                if (!selection)
+                    customerLogic.deposit(accountDatabase, userIdParsed, fields, outputArea);
+                else
+                    customerUI.deposit(fields, labels, outputArea);
 
-                        break;
-                    case 7:
+                break;
+            case 5:
 
-                        //Get specified accounts transaction history
-                        customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Transaction details");
+                //Withdraw money from the account specified
+                if (!selection)
+                    customerLogic.withdraw(accountDatabase, userIdParsed, fields, outputArea);
+                else
+                    customerUI.withdraw(fields, labels, outputArea);
 
-                        break;
-                    case 8:
+                break;
+            case 6:
 
-                        //Send money from the specified account to another specified account
-                        customerLogic.transferMoney(accountDatabase, userIdParsed);
+                //Get specified accounts activity
+                if (!selection)
+                    customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Account summary", fields, outputArea);
+                else
+                    customerUI.requestAccountDetails(fields, labels, outputArea);
 
-                        break;
+                break;
+            case 7:
 
-                    default:
-                        System.out.println("The entered selection was not in the list!");
+                //Get specified accounts transaction history
+                if (!selection)
+                    customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Transaction details", fields, outputArea);
+                else
+                    customerUI.requestAccountDetails(fields, labels, outputArea, fields, outputArea);
 
-                }
-            }
+                break;
+            case 8:
 
+                //Send money from the specified account to another specified account
+                if (!selection)
+                    customerLogic.transferMoney(accountDatabase, userIdParsed, fields, outputArea);
+                else
+                    customerUI.transferMoney(fields, labels, outputArea);
+
+                break;
+
+            default:
+                outputArea.append("The entered selection was not in the list!");
 
         }
 
@@ -506,11 +456,12 @@ public class Bank {
     }
 
 
-    //Save account database and end the program
+    //TODO: Make this code run when the user clicks the exit button
 
     /**
      * Ends the program and saves the database values.
-     * @param value Checks to see if input is 'exit'
+     *
+     * @param value           Checks to see if input is 'exit'
      * @param accountDatabase The ArrayList holding all customer accounts
      */
     private static void endProgram(String value, ArrayList<Account> accountDatabase) {
@@ -543,16 +494,19 @@ public class Bank {
             } catch (IOException ioe) {
 
                 ioe.printStackTrace();
+                //TODO: show as dialogue box
                 System.out.println("Something went wrong while saving the data!!!");
 
             }
 
 
+            //TODO: show as dialogue box?
             System.out.println("\nThank you for your business!");
             System.out.println("Please come again!");
             exit(0);
         }
 
     }
+
 
 }

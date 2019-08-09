@@ -154,14 +154,18 @@ Passing data:
 
 
 TODO:
-Split: Admin and Customer >> AdminAction CustomerAction & AdminUI CustomerUI
+Split: Admin and Customer
+- AdminLogic
+- CustomerLogic
+- AdminUI
+- CustomerUI
 
 Bank added JFrame code
-- Input panel (buttons and labels)
-- Output panel (form)
+* Input panel (buttons and labels)
+* Output panel (form)
 
 Setup the button listeners:
-- Pass the J components to the correct methods
+* Pass the J components to the correct methods
 
 
 

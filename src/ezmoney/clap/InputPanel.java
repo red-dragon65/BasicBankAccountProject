@@ -14,6 +14,8 @@ public class InputPanel extends JPanel {
     private JLabel labels[];
     private JTextField fields[];
 
+    private ActionListener listener;
+
 
     public InputPanel(){
 
@@ -31,6 +33,12 @@ public class InputPanel extends JPanel {
         labels = new JLabel[4];
         fields = new JTextField[4];
 
+        for(int i = 0; i < 4; i++){
+
+            labels[i] = new JLabel();
+            fields[i] = new JTextField(10);
+        }
+
 
         //Set the action listener
         submitButton.addActionListener(new ActionListener(){
@@ -40,7 +48,7 @@ public class InputPanel extends JPanel {
 
                 //TODO: Do something
 
-
+                listener.actionPerformed(e);
 
             }
         });
@@ -153,12 +161,76 @@ public class InputPanel extends JPanel {
 
         //Top left cell
         gc.gridx = 1; //Column
-        gc.gridy = 2; //Row
+        gc.gridy = 4; //Row
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(0,0,0,0); // The indent. Leaves 5 pixels on the right.
 
         //Add the component to the cell
         add(submitButton, gc);
 
+
+        clearUI();
+
+    }
+
+
+
+    public void setListener(ActionListener listener){
+
+        this.listener = listener;
+    }
+
+    public JTextField[] getFields(){
+
+        return fields;
+    }
+
+    public JLabel[] getLabels(){
+
+        return labels;
+    }
+
+
+    public void selectionUI(){
+
+        clearUI();
+
+        //Hide all fields
+        for(JTextField field : fields){
+            field.setVisible(false);
+        }
+
+        //Show one field
+        fields[0].setVisible(true);
+
+        //Hide all labels
+        for(JLabel label : labels){
+            label.setText("");
+        }
+
+        //Show one label
+        labels[0].setText("Enter selection: ");
+
+        refreshUI();
+
+    }
+
+
+    public void clearUI(){
+
+        //Clear out old UI
+        for(JTextField field : fields){
+            field.setVisible(false);
+        }
+
+        for(JLabel label : labels){
+            label.setText("");
+        }
+    }
+
+    public void refreshUI(){
+
+        this.revalidate();
+        this.repaint();
     }
 }
