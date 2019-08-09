@@ -164,6 +164,9 @@ Setup the button listeners:
 - Pass the J components to the correct methods
 
 
+
+
+
 - Implement 'TransferWorker' class
 - Implement 'Runnable' for 'TransferWorker'
 - Allow 'TransferWorker' to transfer money from one account to another
@@ -174,6 +177,9 @@ Setup the button listeners:
 
 - Test GUI code
 - Test Multi-threading code
+
+
+
 
 
 Documentation:

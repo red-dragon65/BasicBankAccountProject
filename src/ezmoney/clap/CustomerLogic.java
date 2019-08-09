@@ -21,6 +21,8 @@ accounts that were created by the admin.
 
 package ezmoney.clap;
 
+import javax.swing.*;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -41,6 +43,7 @@ public class CustomerLogic {
      */
     public void listMyAccounts(ArrayList<Account> accountDatabase, int userID) {
 
+        //TODO: Update to output to form instead of console
         System.out.println("Your Account(s):\n");
 
         //Display the users accounts
@@ -61,19 +64,27 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
      */
-    public void deleteAccount(ArrayList<Account> accountDatabase, int userID) {
+    public void deleteAccount(ArrayList<Account> accountDatabase, int userID, JTextField[] fields, JTextArea outputArea) {
 
+        //TODO: this moves to the UI class
         //Get the account number
-        System.out.println("Enter the accounts number that you wish to delete: ");
+        //System.out.println("Enter the accounts number that you wish to delete: ");
 
         int accountNumber = 0;
 
         try {
 
-            accountNumber = Integer.parseInt(consoleInput.nextLine());
+            //TODO: this gets data from the JTextFields
+            //accountNumber = Integer.parseInt(consoleInput.nextLine());
+            accountNumber = Integer.parseInt(fields[0].getText());
+
+
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            //TODO: this outputs to the form
+            //System.out.println();
+            outputArea.append("Incorrect input! Returning to main menu.");
+
         }
 
 
@@ -93,14 +104,19 @@ public class CustomerLogic {
 
                     accountDatabase.remove(a);
 
-                    System.out.println("The account was successfully deleted!");
+                    //TODO: this outputs to the form
+                    //System.out.println("The account was successfully deleted!");
+                    outputArea.append("The account was successfully deleted!");
 
                     break;
 
                 } else {
 
-                    System.out.println("The account could not be deleted!");
-                    System.out.println("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
+                    //TODO: this outputs to the form
+                    //System.out.println("The account could not be deleted!");
+                    //System.out.println("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
+                    outputArea.append("The account could not be deleted!");
+                    outputArea.append("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
 
                     break;
                 }
