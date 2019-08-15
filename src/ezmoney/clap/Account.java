@@ -21,6 +21,7 @@ accounts that were created by the admin.
 
 package ezmoney.clap;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -202,7 +203,7 @@ public class Account implements Serializable {
      * @param moneyAmount Amount of money to be deposited
      * @param transfer Notifies if the account activity is a transfer type
      */
-    public void deposit(double moneyAmount, boolean transfer) {
+    public synchronized void deposit(double moneyAmount, boolean transfer) {
 
         // Add specified amount of money to account
         money += moneyAmount;
@@ -227,14 +228,16 @@ public class Account implements Serializable {
      * @param moneyAmount Amount of money to be withdrawn
      * @param transfer Notifies if the account activity is a transfer type
      */
-    public void withdraw(double moneyAmount, boolean transfer) {
+    public synchronized boolean withdraw(double moneyAmount, boolean transfer, JTextArea outputArea) {
 
         //Attempt to withdraw money
         if (money - moneyAmount < 0) {
 
             //Notify user
-            System.out.println("Cannot withdraw: $" + String.format("%,.2f", moneyAmount) + "!");
-            System.out.println("The balance is too low!: $" + String.format("%,.2f", money));
+            outputArea.append("Cannot withdraw: $" + String.format("%,.2f", moneyAmount) + "!");
+            outputArea.append("The balance is too low!: $" + String.format("%,.2f", money));
+
+            return false;
 
         } else {
 
@@ -254,9 +257,11 @@ public class Account implements Serializable {
             }
 
             //Notify user
-            System.out.println("The money was successfully withdrawn!");
-            System.out.println("Your new balance is: $" + String.format("%,.2f", money));
+            outputArea.append(("The money was successfully withdrawn!");
+            outputArea.append(("Your new balance is: $" + String.format("%,.2f", money));
         }
+
+        return true;
     }
 
     /**
@@ -312,11 +317,11 @@ public class Account implements Serializable {
     /**
      * Displays the activity log for this account
      */
-    public void showActivity() {
+    public void showActivity(JTextArea outputArea) {
 
         for (AccountActivity activity : activitylist) {
 
-            System.out.println(activity.toString());
+            outputArea.append(activity.toString());
         }
     }
 

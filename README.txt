@@ -179,10 +179,10 @@ Setup the button listeners:
 - Implement 'TransferDriver' class
 - Allow the class to create threads of 'TransferWorker' objects
 
+
+
 - Test GUI code
 - Test Multi-threading code
-
-
 
 
 
@@ -195,20 +195,18 @@ Documentation:
 
 
 
+Mujtaba:
+- Test code
+- Add comments to code
+- Create screen shot document
 
+Brandon:
+- Finish code split
+- Test code
+- Add comments to code
+- Create Design Document
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Generate javadoc
+- Generate jar file
+- Submit project
 

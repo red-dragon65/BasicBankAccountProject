@@ -202,6 +202,7 @@ public class Bank {
             outputArea.append("\n8. Request an account summary");
             outputArea.append("\n9. Request account transaction details");
             outputArea.append("\n10. Transfer money between accounts");
+            outputArea.append("\n11. Run multi-thread transfer test");
 
 
 
@@ -358,6 +359,14 @@ public class Bank {
                     adminLogic.transferMoney(accountDatabase, fields, outputArea);
                 else
                     adminUI.transferMoney(fields, labels, outputArea);
+
+                break;
+
+            case 11:
+
+                //Run the multi-thread money transfer test
+                TransferDriver multithreadDriver = new TransferDriver(accountDatabase, outputArea);
+
 
                 break;
 
