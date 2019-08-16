@@ -8,10 +8,11 @@ public class OutputPanel extends JPanel {
     private JTextArea outputArea;
 
 
-    public OutputPanel(){
+    public OutputPanel() {
 
         //Initialize text area
         outputArea = new JTextArea();
+        outputArea.setColumns(30);
         setLayout(new BorderLayout());
 
         //Add text area
@@ -20,11 +21,11 @@ public class OutputPanel extends JPanel {
 
     }
 
-    public JTextArea getOutputArea(){
+    public JTextArea getOutputArea() {
         return outputArea;
     }
 
-    public void refreshUI(){
+    public void refreshUI() {
 
     }
 }

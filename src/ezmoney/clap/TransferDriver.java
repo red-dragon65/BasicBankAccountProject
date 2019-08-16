@@ -26,10 +26,9 @@ public class TransferDriver {
     private double totalAfter;
 
 
+    public TransferDriver(ArrayList<Account> accountDatabase, JTextArea outputArea) {
 
-    public TransferDriver(ArrayList<Account> accountDatabase, JTextArea outputArea){
-
-        if(accountDatabase.size() == 0){
+        if (accountDatabase.size() == 0) {
 
             //Break code if no accounts exist
             outputArea.append("\nWarning: No accounts exist for this calculation!\n");
@@ -49,11 +48,11 @@ public class TransferDriver {
             //Get two different accounts
             withdrawAccount = accountDatabase.get(index);
 
-            do{
+            do {
                 index = rand.nextInt(accountDatabase.size());
                 depositAccount = accountDatabase.get(index);
 
-            }while(withdrawAccount == depositAccount);
+            } while (withdrawAccount == depositAccount);
 
 
             //Send the accounts for transaction
@@ -81,11 +80,11 @@ public class TransferDriver {
 
 
         //Do total comparison
-        if(totalBefore == totalAfter){
+        if (totalBefore == totalAfter) {
             outputArea.append("\n\nThe total money before: " + totalBefore);
             outputArea.append("\nThe total money after: " + totalAfter);
             outputArea.append("\nThe test was successful!");
-        }else{
+        } else {
 
             outputArea.append("\n\nThe total money before: " + totalBefore);
             outputArea.append("\nThe total money after: " + totalAfter);
@@ -94,12 +93,11 @@ public class TransferDriver {
     }
 
 
-
-    public double getAccountTotal(ArrayList<Account> accountDatabase){
+    public double getAccountTotal(ArrayList<Account> accountDatabase) {
 
         double totalMoneyInVault = 0;
 
-        for(Account a : accountDatabase){
+        for (Account a : accountDatabase) {
 
             totalMoneyInVault += a.getBalance();
         }

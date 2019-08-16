@@ -13,7 +13,7 @@ public class TransferWorker implements Runnable {
     private JTextArea outputArea;
 
 
-    public TransferWorker(Account withdrawAccount, Account depositAccount, double amount, JTextArea outputArea){
+    public TransferWorker(Account withdrawAccount, Account depositAccount, double amount, JTextArea outputArea) {
 
         this.withdrawAccount = withdrawAccount;
         this.depositAccount = depositAccount;
@@ -23,10 +23,10 @@ public class TransferWorker implements Runnable {
 
 
     @Override
-    public void run(){
+    public void run() {
 
         //If the withdrawal is possible, transfer the money
-        if(withdrawAccount.withdraw(amount, true, outputArea)){
+        if (withdrawAccount.withdraw(amount, true, outputArea)) {
 
             depositAccount.deposit(amount, true);
         }

@@ -19,18 +19,13 @@ public class Bank {
 
     //Hold user data
     private boolean login = false;
-    private String userId = "";
     private int userIdParsed = 0;
     private int pinParsed = 0;
-    private String selection = "";
     private int selectionParsed = 0;
 
     private String userType = "";
-    private int defaultAdminAccount = 1000;
+    private int defaultAdminUserID = 1000;
     private int defaultAdminPassword = 1234;
-
-    //Get input
-    private Scanner consoleInput = new Scanner(System.in);
 
     //Hold the database manipulators
     private CustomerLogic customerLogic = new CustomerLogic();
@@ -108,7 +103,7 @@ public class Bank {
 
 
             //The password matches
-            if (pinParsed == defaultAdminPassword && userIdParsed == defaultAdminAccount) {
+            if (pinParsed == defaultAdminPassword && userIdParsed == defaultAdminUserID) {
 
                 //Break this loop
                 outputArea.append("\nLogging in... Welcome!\n");
@@ -205,7 +200,6 @@ public class Bank {
             outputArea.append("\n11. Run multi-thread transfer test\n");
 
 
-
         } else if (userType.equalsIgnoreCase("customer")) {
 
             //Show selection
@@ -300,7 +294,7 @@ public class Bank {
                 //Delete the specified account
                 if (!selection)
                     adminLogic.deleteAccount(accountDatabase, fields, outputArea);
-                else{
+                else {
                     adminUI.deleteAccount(fields, labels);
                     adminUI.getUserID(fields, labels);
                 }
@@ -311,9 +305,11 @@ public class Bank {
 
                 //Create a new account
                 if (!selection)
-                    adminLogic.createAccount(accountDatabase, "", fields, outputArea);
-                else
+                    adminLogic.createAccount(accountDatabase, 0, fields, outputArea);
+                else {
                     adminUI.createAccount(fields, labels);
+                    adminUI.getGeneratedUserID(fields, labels);
+                }
 
                 break;
             case 6:
@@ -321,7 +317,7 @@ public class Bank {
                 //Deposit money into the specified account
                 if (!selection)
                     adminLogic.deposit(accountDatabase, fields, outputArea);
-                else{
+                else {
                     adminUI.deposit(fields, labels);
                     adminUI.getUserID(fields, labels);
                 }
@@ -417,7 +413,7 @@ public class Bank {
 
                 //Create a new account
                 if (!selection)
-                    customerLogic.createAccount(accountDatabase, userId, fields, outputArea);
+                    customerLogic.createAccount(accountDatabase, userIdParsed, fields, outputArea);
                 else
                     customerUI.createAccount(fields, labels);
 
@@ -478,50 +474,44 @@ public class Bank {
     }
 
 
-    //TODO: Make this code run when the user clicks the exit button
-
     /**
      * Ends the program and saves the database values.
-     *
      */
     public void endProgram(JTextArea outputArea) {
 
 
-            //Serialize to file (save accountDatabase)
-            try {
+        //Serialize to file (save accountDatabase)
+        try {
 
-                //Write the account counter data
-                Writer wr = new FileWriter("./data/AccountCounter.txt");
+            //Write the account counter data
+            Writer wr = new FileWriter("./data/AccountCounter.txt");
 
-                int tempAccountNumber = Account.getAccountNumberCounter();
-                int tempUserCounter = Account.getUserIDCounter();
+            int tempAccountNumber = Account.getAccountNumberCounter();
+            int tempUserCounter = Account.getUserIDCounter();
 
-                wr.write(tempAccountNumber + "\n");
-                wr.write(tempUserCounter + "");
+            wr.write(tempAccountNumber + "\n");
+            wr.write(tempUserCounter + "");
 
-                wr.close();
-
-
-                //Write the account database values
-                FileOutputStream fos = new FileOutputStream("./data/AccountData");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(accountDatabase);
-                oos.close();
-                fos.close();
-
-            } catch (IOException ioe) {
-
-                ioe.printStackTrace();
-                //TODO: show as dialogue box
-                outputArea.append("Something went wrong while saving the data!!!");
-
-            }
+            wr.close();
 
 
-            //TODO: show as dialogue box?
-            outputArea.append("\nThank you for your business!");
-            outputArea.append("Please come again!");
-            exit(0);
+            //Write the account database values
+            FileOutputStream fos = new FileOutputStream("./data/AccountData");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(accountDatabase);
+            oos.close();
+            fos.close();
+
+        } catch (IOException ioe) {
+
+            ioe.printStackTrace();
+            outputArea.append("Something went wrong while saving the data!!!");
+
+        }
+
+        outputArea.append("\nThank you for your business!");
+        outputArea.append("Please come again!");
+        exit(0);
 
     }
 

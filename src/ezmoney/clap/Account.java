@@ -114,10 +114,10 @@ public class Account implements Serializable {
     /**
      * Constructor
      *
-     * @param name The customer name on the account
-     * @param pin The customer pin to access their account
+     * @param name        The customer name on the account
+     * @param pin         The customer pin to access their account
      * @param accountType This account's type
-     * @param userID The unique userID tied to the customers account(s)
+     * @param userID      The unique userID tied to the customers account(s)
      */
     public Account(String name, int pin, AccountType accountType, int userID) {
 
@@ -133,8 +133,8 @@ public class Account implements Serializable {
     /**
      * Constructor
      *
-     * @param name The customer name on the account
-     * @param pin The customer pin to access their account
+     * @param name        The customer name on the account
+     * @param pin         The customer pin to access their account
      * @param accountType This account's type
      */
     public Account(String name, int pin, AccountType accountType) {
@@ -201,7 +201,7 @@ public class Account implements Serializable {
      * Deposits money into account
      *
      * @param moneyAmount Amount of money to be deposited
-     * @param transfer Notifies if the account activity is a transfer type
+     * @param transfer    Notifies if the account activity is a transfer type
      */
     public synchronized void deposit(double moneyAmount, boolean transfer) {
 
@@ -226,7 +226,7 @@ public class Account implements Serializable {
      * Withdraws money from account
      *
      * @param moneyAmount Amount of money to be withdrawn
-     * @param transfer Notifies if the account activity is a transfer type
+     * @param transfer    Notifies if the account activity is a transfer type
      */
     public synchronized boolean withdraw(double moneyAmount, boolean transfer, JTextArea outputArea) {
 

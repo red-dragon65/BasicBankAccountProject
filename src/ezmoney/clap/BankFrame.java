@@ -14,7 +14,7 @@ public class BankFrame extends JFrame {
     private boolean selection = true;
     private JButton exitButton;
 
-    public BankFrame(){
+    public BankFrame() {
 
         //Set title
         super("Bank Account System");
@@ -39,19 +39,19 @@ public class BankFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(!bank.isLoggedIn()){
+                if (!bank.isLoggedIn()) {
 
                     //Login using field input data
                     bank.login(inputPanel.getFields(), outputPanel.getOutputArea());
 
                     //If the user logs in, update the UI for selections
-                    if(bank.isLoggedIn()){
+                    if (bank.isLoggedIn()) {
 
                         inputPanel.selectionUI();
                         bank.showSelectionList(outputPanel.getOutputArea());
                     }
 
-                }else {
+                } else {
 
                     //Pass the components to the correct method
                     if (selection) {
@@ -62,7 +62,7 @@ public class BankFrame extends JFrame {
                         //Update UI
                         inputPanel.clearUI();
 
-                        if(bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea())) {
+                        if (bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea())) {
                             inputPanel.selectionUI();
                             bank.showSelectionList(outputPanel.getOutputArea());
                         }
@@ -99,12 +99,10 @@ public class BankFrame extends JFrame {
         });
 
 
-
         //Add the panels
         add(inputPanel, BorderLayout.CENTER);
         add(outputPanel, BorderLayout.EAST);
         add(exitButton, BorderLayout.SOUTH);
-
 
 
         //Set login for panel
@@ -114,40 +112,4 @@ public class BankFrame extends JFrame {
     }
 
 
-
-
-
-
 }
-
-
-/*
-
-1 Button
-
-4 TextFields
-4 Labels
-
-1 Form
-
-
-
-Todo
-* Create panel for login
-* Create panel for form
-
--
-
-- Add methods to bank code
-- Access bank code
-- Pass data to correct method
-
-
-    Selection shown
-button pressed
-    UI updated
-button pressed
-    Output shown && selection shown
-
-
- */

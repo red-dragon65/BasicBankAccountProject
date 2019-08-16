@@ -5,7 +5,6 @@ import javax.swing.*;
 public class CustomerUI {
 
 
-
     //TODO: Put comments
     public void deleteAccount(JTextField[] fields, JLabel[] labels) {
 
