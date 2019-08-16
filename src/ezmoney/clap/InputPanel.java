@@ -221,6 +221,7 @@ public class InputPanel extends JPanel {
         //Clear out old UI
         for(JTextField field : fields){
             field.setVisible(false);
+            field.setText("");
         }
 
         for(JLabel label : labels){

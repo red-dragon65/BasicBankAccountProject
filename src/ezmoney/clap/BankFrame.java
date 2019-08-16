@@ -22,7 +22,7 @@ public class BankFrame extends JFrame {
 
         //Set frame values
         setLayout(new BorderLayout());
-        setSize(600, 500);
+        setSize(1000, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -59,6 +59,7 @@ public class BankFrame extends JFrame {
                         inputPanel.clearUI();
                         bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea());
                         inputPanel.refreshUI();
+                        outputPanel.refreshUI();
 
                         selection = false;
 
@@ -69,6 +70,7 @@ public class BankFrame extends JFrame {
 
                         //Show the selection
                         inputPanel.selectionUI();
+                        outputPanel.refreshUI();
                         bank.showSelectionList(outputPanel.getOutputArea());
 
                         selection = true;
@@ -80,8 +82,8 @@ public class BankFrame extends JFrame {
         });
 
         //Add the panels
-        add(inputPanel, BorderLayout.WEST);
-        add(outputPanel, BorderLayout.CENTER);
+        add(inputPanel, BorderLayout.CENTER);
+        add(outputPanel, BorderLayout.EAST);
 
 
         //Set login for panel

@@ -23,4 +23,10 @@ public class OutputPanel extends JPanel {
     public JTextArea getOutputArea(){
         return outputArea;
     }
+
+    public void refreshUI(){
+
+        this.revalidate();
+        this.repaint();
+    }
 }
