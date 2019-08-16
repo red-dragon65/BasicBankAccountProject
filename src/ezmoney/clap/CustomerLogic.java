@@ -45,7 +45,7 @@ public class CustomerLogic {
 
         //TODO: Update to output to form instead of console
 //        System.out.println("Your Account(s):\n");
-        outputArea.append("Your Account(s):\n")
+        outputArea.append("Your Account(s):\n");
 
 
         //Display the users accounts
@@ -155,9 +155,9 @@ public class CustomerLogic {
         try {
 
             //Get the data for this account
-            name = fields[0];
-            pin = Integer.parseInt(fields[1]);
-            type = fields[2];
+            name = fields[0].getText();
+            pin = Integer.parseInt(fields[1].getText());
+            type = fields[2].getText();
 
             //TODO: Figure out how to handle admin user creation
             //Get user id if necessary (AdminLogic)
@@ -235,12 +235,12 @@ public class CustomerLogic {
 
         try {
 
-            accountNumber = Integer.parseInt(fields[0]);
-            amount = Double.parseDouble(fields[1]);
+            accountNumber = Integer.parseInt(fields[0].getText());
+            amount = Double.parseDouble(fields[1].getText());
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n")
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
         //Flag if the account is found
@@ -287,8 +287,8 @@ public class CustomerLogic {
         try {
 
             //Get the users input
-            accountNumber = Integer.parseInt(fields[0]);
-            amount = Double.parseDouble(fields[1]);
+            accountNumber = Integer.parseInt(fields[0].getText());
+            amount = Double.parseDouble(fields[1].getText());
 
         } catch (Exception ex) {
 
@@ -306,7 +306,7 @@ public class CustomerLogic {
 
                 found = true;
 
-                a.withdraw(amount, false);
+                a.withdraw(amount, false, outputArea);
 
                 break;
 
@@ -339,7 +339,7 @@ public class CustomerLogic {
         try {
 
             //Get input
-            accountNumber = Integer.parseInt(fields[0]);
+            accountNumber = Integer.parseInt(fields[0].getText());
 
         } catch (Exception ex) {
 
@@ -362,7 +362,7 @@ public class CustomerLogic {
                 //Show account activity if necessary
                 if (type.equalsIgnoreCase("Transaction details")) {
 
-                    a.showActivity();
+                    a.showActivity(outputArea);
                 }
 
                 break;
@@ -397,9 +397,9 @@ public class CustomerLogic {
         try {
 
             //Get input
-            srcNum = Integer.parseInt(fields[0]);
-            dstNum = Integer.parseInt(fields[1]);
-            transAmount = Double.parseDouble(fields[2]);
+            srcNum = Integer.parseInt(fields[0].getText());
+            dstNum = Integer.parseInt(fields[1].getText());
+            transAmount = Double.parseDouble(fields[2].getText());
 
         } catch (Exception ex) {
 
@@ -460,7 +460,7 @@ public class CustomerLogic {
 
 
         //Transfer the money
-        srcAccount.withdraw(transAmount, true);
+        srcAccount.withdraw(transAmount, true, outputArea);
         dstAccount.deposit(transAmount, true);
 
         outputArea.append("The money was successfully transferred!");

@@ -257,8 +257,8 @@ public class Account implements Serializable {
             }
 
             //Notify user
-            outputArea.append(("The money was successfully withdrawn!");
-            outputArea.append(("Your new balance is: $" + String.format("%,.2f", money));
+            outputArea.append("The money was successfully withdrawn!");
+            outputArea.append("Your new balance is: $" + String.format("%,.2f", money));
         }
 
         return true;

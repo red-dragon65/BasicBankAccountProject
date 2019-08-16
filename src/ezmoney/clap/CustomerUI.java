@@ -38,17 +38,17 @@ public class CustomerUI {
     }
 
     //TODO: Put comments
-    public void withdraw(JTextField[] fields, Jlabel[] labels) {
+    public void withdraw(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
         fields[1].setVisible(true);
 
-        labels.setText("Enter your account number you wish to withdraw from:");
-        labels.setText("Enter the amount you wish to withdraw:");
+        labels[0].setText("Enter your account number you wish to withdraw from:");
+        labels[1].setText("Enter the amount you wish to withdraw:");
     }
 
     //TODO: Put comments
-    public void requestAccountDetails(JTextField[] fields, Jlabel[] labels) {
+    public void requestAccountDetails(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
 
@@ -56,7 +56,7 @@ public class CustomerUI {
     }
 
     //TODO: Put comments
-    public void transferMoney(JTextField[] fields, Jlabel[] labels) {
+    public void transferMoney(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
         fields[1].setVisible(true);

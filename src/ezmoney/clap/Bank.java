@@ -275,9 +275,9 @@ public class Bank {
 
                 //List all accounts in the bank
                 if (!selection)
-                    adminLogic.listAllAccounts(accountDatabase, fields, outputArea);
-                else
-                    adminUI.listAllAccounts(fields, labels, outputArea);
+                    adminLogic.listAllAccounts(accountDatabase, outputArea);
+                //else
+                    //adminUI.listAllAccounts(fields, labels, outputArea);
 
                 break;
             case 2:
@@ -286,7 +286,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.listAccountsUserID(accountDatabase, fields, outputArea);
                 else
-                    adminUI.listAccountsUserID(fields, labels, outputArea);
+                    adminUI.listAccountsUserID(fields, labels);
 
                 break;
             case 3:
@@ -295,7 +295,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.listAccountsUsername(accountDatabase, fields, outputArea);
                 else
-                    adminUI.listAccountsUsername(fields, labels, outputArea);
+                    adminUI.listAccountsUsername(fields, labels);
 
                 break;
             case 4:
@@ -304,7 +304,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.deleteAccount(accountDatabase, fields, outputArea);
                 else
-                    adminUI.deleteAccount(fields, labels, outputArea);
+                    adminUI.deleteAccount(fields, labels);
 
                 break;
             case 5:
@@ -313,7 +313,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.createAccount(accountDatabase, "", fields, outputArea);
                 else
-                    adminUI.createAccount(fields, labels, outputArea);
+                    adminUI.createAccount(fields, labels);
 
                 break;
             case 6:
@@ -322,7 +322,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.deposit(accountDatabase, fields, outputArea);
                 else
-                    adminUI.deposit(fields, labels, outputArea);
+                    adminUI.deposit(fields, labels);
 
                 break;
             case 7:
@@ -331,7 +331,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.withdraw(accountDatabase, fields, outputArea);
                 else
-                    adminUI.withdraw(fields, labels, outputArea);
+                    adminUI.withdraw(fields, labels);
 
                 break;
             case 8:
@@ -340,7 +340,9 @@ public class Bank {
                 if (!selection)
                     adminLogic.requestAccountSummary(accountDatabase, fields, outputArea);
                 else
-                    adminUI.requestAccountSummary(fields, labels, outputArea);
+                    adminUI.requestAccountDetails(fields, labels);
+
+                //adminUI.requestAccountSummary(fields, labels, outputArea);
 
                 break;
             case 9:
@@ -349,7 +351,9 @@ public class Bank {
                 if (!selection)
                     adminLogic.requestTransactionDetails(accountDatabase, fields, outputArea);
                 else
-                    adminUI.requestTransactionDetails(fields, labels, outputArea);
+                    adminUI.requestAccountDetails(fields, labels);
+
+                //adminUI.requestAccountSummary(fields, labels, outputArea);
 
                 break;
             case 10:
@@ -358,7 +362,7 @@ public class Bank {
                 if (!selection)
                     adminLogic.transferMoney(accountDatabase, fields, outputArea);
                 else
-                    adminUI.transferMoney(fields, labels, outputArea);
+                    adminUI.transferMoney(fields, labels);
 
                 break;
 
@@ -387,9 +391,9 @@ public class Bank {
 
                 //Show accounts tied to userId
                 if (!selection)
-                    customerLogic.listMyAccounts(accountDatabase, userIdParsed, fields, outputArea);
-                else
-                    customerUI.listMyAccounts(fields, labels, outputArea);
+                    customerLogic.listMyAccounts(accountDatabase, userIdParsed, outputArea);
+                //else
+                    //customerUI.listMyAccounts(fields, labels, outputArea);
 
                 break;
             case 2:
@@ -407,7 +411,7 @@ public class Bank {
                 if (!selection)
                     customerLogic.createAccount(accountDatabase, userId, fields, outputArea);
                 else
-                    customerUI.createAccount(fields, labels, outputArea);
+                    customerUI.createAccount(fields, labels);
 
                 break;
             case 4:
@@ -416,7 +420,7 @@ public class Bank {
                 if (!selection)
                     customerLogic.deposit(accountDatabase, userIdParsed, fields, outputArea);
                 else
-                    customerUI.deposit(fields, labels, outputArea);
+                    customerUI.deposit(fields, labels);
 
                 break;
             case 5:
@@ -425,7 +429,7 @@ public class Bank {
                 if (!selection)
                     customerLogic.withdraw(accountDatabase, userIdParsed, fields, outputArea);
                 else
-                    customerUI.withdraw(fields, labels, outputArea);
+                    customerUI.withdraw(fields, labels);
 
                 break;
             case 6:
@@ -434,7 +438,7 @@ public class Bank {
                 if (!selection)
                     customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Account summary", fields, outputArea);
                 else
-                    customerUI.requestAccountDetails(fields, labels, outputArea);
+                    customerUI.requestAccountDetails(fields, labels);
 
                 break;
             case 7:
@@ -443,7 +447,7 @@ public class Bank {
                 if (!selection)
                     customerLogic.requestAccountDetails(accountDatabase, userIdParsed, "Transaction details", fields, outputArea);
                 else
-                    customerUI.requestAccountDetails(fields, labels, outputArea, fields, outputArea);
+                    customerUI.requestAccountDetails(fields, labels);
 
                 break;
             case 8:
@@ -452,7 +456,7 @@ public class Bank {
                 if (!selection)
                     customerLogic.transferMoney(accountDatabase, userIdParsed, fields, outputArea);
                 else
-                    customerUI.transferMoney(fields, labels, outputArea);
+                    customerUI.transferMoney(fields, labels);
 
                 break;
 

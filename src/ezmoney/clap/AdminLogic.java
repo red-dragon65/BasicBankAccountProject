@@ -61,7 +61,7 @@ public class AdminLogic extends CustomerLogic {
         try {
 
             // Grabs the specific user id to search the database for
-            userID = fields[0];
+            userID = Integer.parseInt(fields[0].getText());
 
         } catch (Exception ex) {
 
@@ -91,7 +91,7 @@ public class AdminLogic extends CustomerLogic {
         try {
 
             // Grabs specific user name to search the database for
-            username = fields[0];
+            username = fields[0].getText();
 
         } catch (Exception ex) {
 
@@ -104,7 +104,7 @@ public class AdminLogic extends CustomerLogic {
             if (account.getHoldersName().equalsIgnoreCase(username)) {
 
                 // Prints out account details
-                outputArea.append(account);
+                outputArea.append(account.toString());
             }
         }
     }
@@ -117,7 +117,7 @@ public class AdminLogic extends CustomerLogic {
     public void deleteAccount(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         //Call the super method
-        super.deleteAccount(accountDatabase, getUserID(), fields, outputArea);
+        super.deleteAccount(accountDatabase, getUserID(fields, outputArea), fields, outputArea);
 
     }
 
@@ -129,7 +129,7 @@ public class AdminLogic extends CustomerLogic {
     public void deposit(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.deposit(accountDatabase, getUserID(), fields, outputArea);
+        super.deposit(accountDatabase, getUserID(fields, outputArea), fields, outputArea);
 
     }
 
@@ -141,7 +141,7 @@ public class AdminLogic extends CustomerLogic {
     public void withdraw(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.withdraw(accountDatabase, getUserID(), fields, outputArea);
+        super.withdraw(accountDatabase, getUserID(fields, outputArea), fields, outputArea);
     }
 
     /**
@@ -152,7 +152,7 @@ public class AdminLogic extends CustomerLogic {
     public void requestAccountSummary(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.requestAccountDetails(accountDatabase, getUserID(), "Account summary", fields, outputArea);
+        super.requestAccountDetails(accountDatabase, getUserID(fields, outputArea), "Account summary", fields, outputArea);
     }
 
     /**
@@ -163,7 +163,7 @@ public class AdminLogic extends CustomerLogic {
     public void requestTransactionDetails(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.requestAccountDetails(accountDatabase, getUserID(), "Transaction details", fields, outputArea);
+        super.requestAccountDetails(accountDatabase, getUserID(fields, outputArea), "Transaction details", fields, outputArea);
     }
 
     /**
@@ -174,7 +174,7 @@ public class AdminLogic extends CustomerLogic {
     public void transferMoney(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.transferMoney(accountDatabase, getUserID(), fields, outputArea);
+        super.transferMoney(accountDatabase, getUserID(fields, outputArea), fields, outputArea);
     }
 
 
@@ -188,7 +188,7 @@ public class AdminLogic extends CustomerLogic {
         try {
             //Get input from the user
             int userID = 0;
-            userID = fields[0];
+            userID = Integer.parseInt(fields[0].getText());
 
             return userID;
 

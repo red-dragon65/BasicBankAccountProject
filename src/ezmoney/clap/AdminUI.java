@@ -1,8 +1,8 @@
 package ezmoney.clap;
 
-import java.util.ArrayList;
+import javax.swing.*;
 
-public class AdminUI {
+public class AdminUI extends CustomerUI{
 
     public void listAccountsUserID(JTextField[] fields, JLabel[] labels) {
 
