@@ -36,15 +36,15 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void listAllAccounts(ArrayList<Account> accountDatabase) {
+    public void listAllAccounts(ArrayList<Account> accountDatabase, JTextArea outputArea) {
 
-        System.out.println("Complete list of accounts:\n");
+        outputArea.append("Complete list of accounts:\n");
 
         // Runs through every value in accountDatabase
         for (Account account : accountDatabase) {
 
             // Prints out account details
-            System.out.println(account.print() + "\n");
+            outputArea.append(account.print() + "\n");
         }
     }
 
@@ -53,19 +53,18 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void listAccountsUserID(ArrayList<Account> accountDatabase) {
+    public void listAccountsUserID(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         int userID = 0;
 
         try {
 
             // Grabs the specific user id to search the database for
-            System.out.println("Enter user id to view all accounts associated with it: ");
-            userID = consoleInput.nextInt();
+            userID = fields[0];
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
         for (Account account : accountDatabase) {
@@ -74,7 +73,7 @@ public class AdminLogic extends CustomerLogic {
             if (account.getUserID() == userID) {
 
                 // Prints out account details
-                System.out.println(account.print() + "\n");
+                outputArea.append(account.print() + "\n");
             }
         }
     }
@@ -84,19 +83,18 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void listAccountsUsername(ArrayList<Account> accountDatabase) {
+    public void listAccountsUsername(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         String username = "";
 
         try {
 
             // Grabs specific user name to search the database for
-            System.out.println("Enter user name to view all accounts associated with it: ");
-            username = consoleInput.nextLine();
+            username = fields[0];
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
         for (Account account : accountDatabase) {
@@ -105,7 +103,7 @@ public class AdminLogic extends CustomerLogic {
             if (account.getHoldersName().equalsIgnoreCase(username)) {
 
                 // Prints out account details
-                System.out.println(account);
+                outputArea.append(account);
             }
         }
     }
@@ -115,10 +113,10 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void deleteAccount(ArrayList<Account> accountDatabase) {
+    public void deleteAccount(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         //Call the super method
-        super.deleteAccount(accountDatabase, getUserID());
+        super.deleteAccount(accountDatabase, getUserID(), fields, outputArea);
 
     }
 
@@ -127,10 +125,10 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void deposit(ArrayList<Account> accountDatabase) {
+    public void deposit(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.deposit(accountDatabase, getUserID());
+        super.deposit(accountDatabase, getUserID(), fields, outputArea);
 
     }
 
@@ -139,10 +137,10 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void withdraw(ArrayList<Account> accountDatabase) {
+    public void withdraw(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.withdraw(accountDatabase, getUserID());
+        super.withdraw(accountDatabase, getUserID(), fields, outputArea);
     }
 
     /**
@@ -150,10 +148,10 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void requestAccountSummary(ArrayList<Account> accountDatabase) {
+    public void requestAccountSummary(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.requestAccountDetails(accountDatabase, getUserID(), "Account summary");
+        super.requestAccountDetails(accountDatabase, getUserID(), "Account summary", fields, outputArea);
     }
 
     /**
@@ -161,10 +159,10 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void requestTransactionDetails(ArrayList<Account> accountDatabase) {
+    public void requestTransactionDetails(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.requestAccountDetails(accountDatabase, getUserID(), "Transaction details");
+        super.requestAccountDetails(accountDatabase, getUserID(), "Transaction details", fields, outputArea);
     }
 
     /**
@@ -172,10 +170,10 @@ public class AdminLogic extends CustomerLogic {
      *
      * @param accountDatabase The list of all bank accounts
      */
-    public void transferMoney(ArrayList<Account> accountDatabase) {
+    public void transferMoney(ArrayList<Account> accountDatabase, JTextField[] fields, JTextArea outputArea) {
 
         // Calls the super method
-        super.transferMoney(accountDatabase, getUserID());
+        super.transferMoney(accountDatabase, getUserID(), fields, outputArea);
     }
 
 
@@ -184,17 +182,18 @@ public class AdminLogic extends CustomerLogic {
      *
      * @return Returns a userID from the user
      */
-    public int getUserID() {
+    public int getUserID(JTextField[] fields, JTextArea outputArea) {
 
         try {
             //Get input from the user
-            System.out.println("Enter the userID for the account you want: ");
+            int userID = 0;
+            userID = fields[0];
 
-            return consoleInput.nextInt();
+            return userID;
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input!");
+            outputArea.append("Incorrect input!");
         }
 
         return 0;

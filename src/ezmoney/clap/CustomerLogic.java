@@ -41,18 +41,20 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
      */
-    public void listMyAccounts(ArrayList<Account> accountDatabase, int userID) {
+    public void listMyAccounts(ArrayList<Account> accountDatabase, int userID, JTextArea outputArea) {
 
         //TODO: Update to output to form instead of console
-        System.out.println("Your Account(s):\n");
+//        System.out.println("Your Account(s):\n");
+        outputArea.append("Your Account(s):\n")
+
 
         //Display the users accounts
         for (Account a : accountDatabase) {
 
             if (a.getUserID() == userID) {
 
-                System.out.println(a.print() + "\n");
-
+                //System.out.println(a.print() + "\n");
+                outputArea.append(a.print() + "\n");
             }
         }
     }
@@ -140,7 +142,7 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userId          The user id that may be tied to multiple bank accounts
      */
-    public void createAccount(ArrayList<Account> accountDatabase, String userId) {
+    public void createAccount(ArrayList<Account> accountDatabase, String userId, JTextField[] fields, JTextArea outputArea) {
 
         String name = "";
 
@@ -153,17 +155,11 @@ public class CustomerLogic {
         try {
 
             //Get the data for this account
-            System.out.println("Enter a name for the new account: ");
-            name = consoleInput.nextLine();
+            name = fields[0];
+            pin = Integer.parseInt(fields[1]);
+            type = fields[2];
 
-            System.out.println("Enter a new pin for this account: ");
-            String pinString = consoleInput.nextLine();
-            pin = Integer.parseInt(pinString);
-
-            System.out.println("Enter the account type (Personal, Business, Checking, Saving): ");
-            type = consoleInput.nextLine();
-
-
+            //TODO: Figure out how to handle admin user creation
             //Get user id if necessary (AdminLogic)
             if (userId.equalsIgnoreCase("")) {
 
@@ -178,7 +174,7 @@ public class CustomerLogic {
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
 
@@ -189,8 +185,8 @@ public class CustomerLogic {
         //Attempt to create the account
         if (enumType == null) {
 
-            System.out.println("The correct account type was not found.");
-            System.out.println("The account could not be created!");
+            outputArea.append("The correct account type was not found.\n");
+            outputArea.append("The account could not be created!\n");
 
         } else {
 
@@ -203,9 +199,9 @@ public class CustomerLogic {
                 accountDatabase.add(account);
 
                 //Notify the user
-                System.out.println("The account has been created!");
-                System.out.println("Account info:");
-                System.out.println(account.print());
+                outputArea.append("The account has been created!\n");
+                outputArea.append("Account:\n");
+                outputArea.append(account.print());
 
             } else {
 
@@ -216,9 +212,9 @@ public class CustomerLogic {
                 accountDatabase.add(account);
 
                 //Notify the user
-                System.out.println("The account has been created!");
-                System.out.println("Account info:");
-                System.out.println(account.print());
+                outputArea.append("The account has been created!\n");
+                outputArea.append("Account info:\n");
+                outputArea.append(account.print());
             }
         }
 
@@ -231,7 +227,7 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
      */
-    public void deposit(ArrayList<Account> accountDatabase, int userID) {
+    public void deposit(ArrayList<Account> accountDatabase, int userID, JTextField[] fields, JTextArea outputArea) {
 
         int accountNumber = 0;
 
@@ -239,16 +235,12 @@ public class CustomerLogic {
 
         try {
 
-            //Get the users input
-            System.out.println("Enter your account number you wish to deposit to: ");
-            accountNumber = Integer.parseInt(consoleInput.nextLine());
-
-            System.out.println("Enter the amount you wish to deposit: ");
-            amount = Double.parseDouble(consoleInput.nextLine());
+            accountNumber = Integer.parseInt(fields[0]);
+            amount = Double.parseDouble(fields[1]);
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n")
         }
 
         //Flag if the account is found
@@ -264,8 +256,8 @@ public class CustomerLogic {
 
                 a.deposit(amount, false);
 
-                System.out.println("The money was successfully deposited!");
-                System.out.println("Your new balance is: " + String.format("%,.2f", a.getBalance()));
+                outputArea.append("The money was successfully deposited!\n");
+                outputArea.append("Your new balance is: " + String.format("%,.2f", a.getBalance()) + "\n");
                 break;
             }
 
@@ -275,10 +267,8 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            System.out.println("The specified account could not be found!");
+            outputArea.append("The specified account could not be found!");
         }
-
-
     }
 
 
@@ -288,7 +278,7 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
      */
-    public void withdraw(ArrayList<Account> accountDatabase, int userID) {
+    public void withdraw(ArrayList<Account> accountDatabase, int userID, JTextField[] fields, JTextArea outputArea) {
 
         int accountNumber = 0;
 
@@ -297,15 +287,12 @@ public class CustomerLogic {
         try {
 
             //Get the users input
-            System.out.println("Enter your account number you wish to withdraw from: ");
-            accountNumber = Integer.parseInt(consoleInput.nextLine());
-
-            System.out.println("Enter the amount you wish to withdraw: ");
-            amount = Double.parseDouble(consoleInput.nextLine());
+            accountNumber = Integer.parseInt(fields[0]);
+            amount = Double.parseDouble(fields[1]);
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
 
@@ -331,7 +318,7 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            System.out.println("The specified account could not be found!");
+            outputArea.append("The specified account could not be found!\n");
         }
 
 
@@ -345,19 +332,18 @@ public class CustomerLogic {
      * @param userID          The user id that may be tied to multiple bank accounts
      * @param type            The type sets whether transaction details will be shown
      */
-    public void requestAccountDetails(ArrayList<Account> accountDatabase, int userID, String type) {
+    public void requestAccountDetails(ArrayList<Account> accountDatabase, int userID, String type, JTextField[] fields, JTextArea outputArea) {
 
         int accountNumber = 0;
 
         try {
 
             //Get input
-            System.out.println("Enter the accounts number that you want a summary for: ");
-            accountNumber = Integer.parseInt(consoleInput.nextLine());
+            accountNumber = Integer.parseInt(fields[0]);
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
 
@@ -371,7 +357,7 @@ public class CustomerLogic {
 
                 //Display the account info
                 found = true;
-                System.out.println(a.print());
+                outputArea.append(a.print() + "\n");
 
                 //Show account activity if necessary
                 if (type.equalsIgnoreCase("Transaction details")) {
@@ -387,7 +373,7 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            System.out.println("The specified account could not be found!");
+            outputArea.append("The specified account could not be found!");
         }
 
 
@@ -400,7 +386,7 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userID          The user id that may be tied to multiple bank accounts
      */
-    public void transferMoney(ArrayList<Account> accountDatabase, int userID) {
+    public void transferMoney(ArrayList<Account> accountDatabase, int userID, JTextField[] fields, JTextArea outputArea) {
 
         int srcNum = 0;
 
@@ -411,18 +397,13 @@ public class CustomerLogic {
         try {
 
             //Get input
-            System.out.println("Enter the account you wish to transfer from: ");
-            srcNum = Integer.parseInt(consoleInput.nextLine());
-
-            System.out.println("Enter the account you wish to transfer to: ");
-            dstNum = Integer.parseInt(consoleInput.nextLine());
-
-            System.out.println("Enter the amount that you would like to transfer: ");
-            transAmount = Double.parseDouble(consoleInput.nextLine());
+            srcNum = Integer.parseInt(fields[0]);
+            dstNum = Integer.parseInt(fields[1]);
+            transAmount = Double.parseDouble(fields[2]);
 
         } catch (Exception ex) {
 
-            System.out.println("Incorrect input! Returning to main menu.");
+            outputArea.append("Incorrect input! Returning to main menu.\n");
         }
 
 
@@ -451,8 +432,8 @@ public class CustomerLogic {
         //See if the srcAccount was found
         if (srcAccount == null) {
 
-            System.out.println("Could not find the source account!");
-            System.out.println("The transfer was canceled!");
+            outputArea.append("Could not find the source account!\n");
+            outputArea.append("The transfer was canceled!\n");
 
             return;
         }
@@ -460,8 +441,8 @@ public class CustomerLogic {
         //See if the dstAccount was found
         if (dstAccount == null) {
 
-            System.out.println("Could not find the destination account!");
-            System.out.println("The transfer was canceled!");
+            outputArea.append("Could not find the destination account!\n");
+            outputArea.append("The transfer was canceled!\n");
 
             return;
         }
@@ -470,9 +451,9 @@ public class CustomerLogic {
         //See if enough money is in the src account
         if (srcAccount.getBalance() - transAmount < 0) {
 
-            System.out.println("There is not enough money in the src account to transfer!");
-            System.out.println("You requested: " + transAmount);
-            System.out.println("You only have a balance of: " + String.format("%,.2f", srcAccount.getBalance()));
+            outputArea.append("There is not enough money in the src account to transfer!\n");
+            outputArea.append("You requested: " + transAmount + "\n");
+            outputArea.append("You only have a balance of: " + String.format("%,.2f", srcAccount.getBalance()) + "\n");
 
             return;
         }
@@ -482,7 +463,7 @@ public class CustomerLogic {
         srcAccount.withdraw(transAmount, true);
         dstAccount.deposit(transAmount, true);
 
-        System.out.println("The money was successfully transferred!");
+        outputArea.append("The money was successfully transferred!");
 
 
     }
