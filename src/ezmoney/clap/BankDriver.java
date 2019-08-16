@@ -2,6 +2,9 @@ package ezmoney.clap;
 
 import javax.swing.*;
 
+/**
+ * This class creates the GUI interface.
+ */
 public class BankDriver {
 
     public static void main(String[] args) {

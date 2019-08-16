@@ -32,9 +32,6 @@ import java.util.Scanner;
 public class CustomerLogic {
 
 
-    private Scanner consoleInput = new Scanner(System.in);
-
-
     /**
      * Show all accounts tied to userId
      *
@@ -43,8 +40,6 @@ public class CustomerLogic {
      */
     public void listMyAccounts(ArrayList<Account> accountDatabase, int userID, JTextArea outputArea) {
 
-        //TODO: Update to output to form instead of console
-//        System.out.println("Your Account(s):\n");
         outputArea.append("\nYour Account(s):\n");
 
 
@@ -68,23 +63,16 @@ public class CustomerLogic {
      */
     public void deleteAccount(ArrayList<Account> accountDatabase, int userID, JTextField[] fields, JTextArea outputArea) {
 
-        //TODO: this moves to the UI class
-        //Get the account number
-        //System.out.println("Enter the accounts number that you wish to delete: ");
 
         int accountNumber = 0;
 
         try {
 
-            //TODO: this gets data from the JTextFields
-            //accountNumber = Integer.parseInt(consoleInput.nextLine());
             accountNumber = Integer.parseInt(fields[0].getText());
 
 
         } catch (Exception ex) {
 
-            //TODO: this outputs to the form
-            //System.out.println();
             outputArea.append("\nIncorrect input! Returning to main menu.\n");
 
         }
@@ -106,17 +94,12 @@ public class CustomerLogic {
 
                     accountDatabase.remove(a);
 
-                    //TODO: this outputs to the form
-                    //System.out.println("The account was successfully deleted!");
                     outputArea.append("\nThe account was successfully deleted!\n");
 
                     break;
 
                 } else {
 
-                    //TODO: this outputs to the form
-                    //System.out.println("The account could not be deleted!");
-                    //System.out.println("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
                     outputArea.append("\nThe account could not be deleted!");
                     outputArea.append("\nIt has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
 
@@ -142,15 +125,13 @@ public class CustomerLogic {
      * @param accountDatabase The list of all bank accounts
      * @param userId          The user id that may be tied to multiple bank accounts
      */
-    public void createAccount(ArrayList<Account> accountDatabase, String userId, JTextField[] fields, JTextArea outputArea) {
+    public void createAccount(ArrayList<Account> accountDatabase, int userId, JTextField[] fields, JTextArea outputArea) {
 
         String name = "";
 
         int pin = 0;
 
         String type = "";
-
-        int userIDinput = 0;
 
         try {
 
@@ -159,18 +140,6 @@ public class CustomerLogic {
             pin = Integer.parseInt(fields[1].getText());
             type = fields[2].getText();
 
-            //TODO: Figure out how to handle admin user creation
-            //Get user id if necessary (AdminLogic)
-            if (userId.equalsIgnoreCase("")) {
-
-                System.out.println("\nEnter an existing userID for this account (or 0 to generate a new id):\n");
-                userIDinput = Integer.parseInt(consoleInput.nextLine());
-
-            } else {
-
-                //Set the userID if it is passed in
-                userIDinput = Integer.parseInt(userId);
-            }
 
         } catch (Exception ex) {
 
@@ -190,7 +159,7 @@ public class CustomerLogic {
 
         } else {
 
-            if (userIDinput == 0) {
+            if (userId == 0) {
 
                 //Generate the userID
 
@@ -208,7 +177,7 @@ public class CustomerLogic {
                 //Do not generate the userID
 
                 //Create the new account
-                Account account = new Account(name, pin, enumType, userIDinput);
+                Account account = new Account(name, pin, enumType, userId);
                 accountDatabase.add(account);
 
                 //Notify the user

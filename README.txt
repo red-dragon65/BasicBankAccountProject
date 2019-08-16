@@ -155,10 +155,10 @@ Passing data:
 
 TODO:
 Split: Admin and Customer
-- AdminLogic
-- CustomerLogic
-- AdminUI
-- CustomerUI
+* AdminLogic
+* CustomerLogic
+* AdminUI
+* CustomerUI
 
 Bank added JFrame code
 * Input panel (buttons and labels)
@@ -181,7 +181,7 @@ Setup the button listeners:
 
 
 
-- Test GUI code
+* Test GUI code
 * Test Multi-threading code
 
 
@@ -196,7 +196,7 @@ Documentation:
 
 
 Mujtaba:
-- Test code
+* Test code
 - Add comments to code
 - Create screen shot document
 

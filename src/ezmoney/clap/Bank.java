@@ -1,44 +1,49 @@
 package ezmoney.clap;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+/**
+ * Runs all the logic based on the users input.
+ * This classes modifies the bank accounts.
+ */
 public class Bank {
 
-    //Hold all the accounts in the bank
-    private ArrayList<Account> accountDatabase = new ArrayList<Account>();
+    /**
+     * Holds all the accounts in the bank.
+     */
+    private ArrayList<Account> accountDatabase = new ArrayList<>();
 
-    //Hold input file
-    private InputStream inputFile;
 
-
-    //Hold user data
+    /**
+     * Holds the users login data.
+     */
     private boolean login = false;
-    private String userId = "";
     private int userIdParsed = 0;
     private int pinParsed = 0;
-    private String selection = "";
     private int selectionParsed = 0;
 
     private String userType = "";
-    private int defaultAdminAccount = 1000;
+    private int defaultAdminUserID = 1000;
     private int defaultAdminPassword = 1234;
 
-    //Get input
-    private Scanner consoleInput = new Scanner(System.in);
-
-    //Hold the database manipulators
+    /**
+     * Holds the account database and UI manipulator classes.
+     */
     private CustomerLogic customerLogic = new CustomerLogic();
     private AdminLogic adminLogic = new AdminLogic();
     private CustomerUI customerUI = new CustomerUI();
     private AdminUI adminUI = new AdminUI();
 
 
+    /**
+     * The default constructor.
+     * It attempts to first open the saved account data.
+     */
     public Bank() {
 
         //Deserialize file (load accountDatabase)
@@ -86,6 +91,13 @@ public class Bank {
 
     }
 
+
+    /**
+     * Attempts to log the user in based on their input credentials.
+     *
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param outputArea The output JPanel field for displaying results.
+     */
     public void login(JTextField[] fields, JTextArea outputArea) {
 
 
@@ -108,7 +120,7 @@ public class Bank {
 
 
             //The password matches
-            if (pinParsed == defaultAdminPassword && userIdParsed == defaultAdminAccount) {
+            if (pinParsed == defaultAdminPassword && userIdParsed == defaultAdminUserID) {
 
                 //Break this loop
                 outputArea.append("\nLogging in... Welcome!\n");
@@ -179,11 +191,21 @@ public class Bank {
     }
 
 
+    /**
+     * Checks too see if the user has successfully logged in.
+     *
+     * @return Tells the JPanel that the user is logged in to the system.
+     */
     public boolean isLoggedIn() {
         return login;
     }
 
 
+    /**
+     * Displays the selections the user can partake in.
+     *
+     * @param outputArea The output JPanel field for displaying results.
+     */
     public void showSelectionList(JTextArea outputArea) {
 
 
@@ -205,7 +227,6 @@ public class Bank {
             outputArea.append("\n11. Run multi-thread transfer test\n");
 
 
-
         } else if (userType.equalsIgnoreCase("customer")) {
 
             //Show selection
@@ -224,8 +245,18 @@ public class Bank {
     }
 
 
+    /**
+     * Sends the selection data to the correct methods based on if the user is an 'Admin' or 'Customer'.
+     *
+     * @param selection  The selection data from the input JPanel.
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param labels     The JPanel input fields which display labels to tell the user what to input.
+     * @param outputArea The output JPanel field for displaying results.
+     * @return Tells the JFrame whether the UI selection should be re-shown immediately.
+     */
     public boolean calculateInput(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
+        //Send the data to the correct method
         if (userType.equalsIgnoreCase("admin")) {
 
             return runAdmin(selection, fields, labels, outputArea);
@@ -239,6 +270,12 @@ public class Bank {
     }
 
 
+    /**
+     * Sets which item was selected by using data from the input JPanel.
+     *
+     * @param field      The JPanel input fields which text is retrieved from.
+     * @param outputArea The output JPanel field for displaying results.
+     */
     public void setSelected(JTextField field, JTextArea outputArea) {
 
         try {
@@ -252,6 +289,12 @@ public class Bank {
     }
 
 
+    /**
+     * Displays the login UI when the application first launches.
+     *
+     * @param fields The JPanel input fields which text is retrieved from.
+     * @param labels The output JPanel field for displaying results.
+     */
     public void setLoginUI(JTextField[] fields, JLabel[] labels) {
 
         labels[0].setText("Enter user type: ");
@@ -263,11 +306,19 @@ public class Bank {
         labels[2].setText("Enter pin: ");
         fields[2].setVisible(true);
 
-
     }
 
 
-    public boolean runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    /**
+     * Sends the input data to the correct method based on the users selected input.
+     *
+     * @param selection  The selection data from the input JPanel.
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param labels     The JPanel input fields which display labels to tell the user what to input.
+     * @param outputArea The output JPanel field for displaying results.
+     * @return Tells the JFrame whether the UI selection should be re-shown immediately.
+     */
+    private boolean runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         //Run AdminLogic code
         switch (selectionParsed) {
@@ -300,7 +351,7 @@ public class Bank {
                 //Delete the specified account
                 if (!selection)
                     adminLogic.deleteAccount(accountDatabase, fields, outputArea);
-                else{
+                else {
                     adminUI.deleteAccount(fields, labels);
                     adminUI.getUserID(fields, labels);
                 }
@@ -311,9 +362,11 @@ public class Bank {
 
                 //Create a new account
                 if (!selection)
-                    adminLogic.createAccount(accountDatabase, "", fields, outputArea);
-                else
+                    adminLogic.createAccount(accountDatabase, 0, fields, outputArea);
+                else {
                     adminUI.createAccount(fields, labels);
+                    adminUI.getGeneratedUserID(fields, labels);
+                }
 
                 break;
             case 6:
@@ -321,7 +374,7 @@ public class Bank {
                 //Deposit money into the specified account
                 if (!selection)
                     adminLogic.deposit(accountDatabase, fields, outputArea);
-                else{
+                else {
                     adminUI.deposit(fields, labels);
                     adminUI.getUserID(fields, labels);
                 }
@@ -392,7 +445,16 @@ public class Bank {
         return false;
     }
 
-    public boolean runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    /**
+     * Sends the input data to the correct method based on the users selected input.
+     *
+     * @param selection  The selection data from the input JPanel.
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param labels     The JPanel input fields which display labels to tell the user what to input.
+     * @param outputArea The output JPanel field for displaying results.
+     * @return Tells the JFrame whether the UI selection should be re-shown immediately.
+     */
+    private boolean runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         //Run customerLogic code
         switch (selectionParsed) {
@@ -417,7 +479,7 @@ public class Bank {
 
                 //Create a new account
                 if (!selection)
-                    customerLogic.createAccount(accountDatabase, userId, fields, outputArea);
+                    customerLogic.createAccount(accountDatabase, userIdParsed, fields, outputArea);
                 else
                     customerUI.createAccount(fields, labels);
 
@@ -478,50 +540,46 @@ public class Bank {
     }
 
 
-    //TODO: Make this code run when the user clicks the exit button
-
     /**
      * Ends the program and saves the database values.
      *
+     * @param outputArea The output JPanel field for displaying results.
      */
     public void endProgram(JTextArea outputArea) {
 
 
-            //Serialize to file (save accountDatabase)
-            try {
+        //Serialize to file (save accountDatabase)
+        try {
 
-                //Write the account counter data
-                Writer wr = new FileWriter("./data/AccountCounter.txt");
+            //Write the account counter data
+            Writer wr = new FileWriter("./data/AccountCounter.txt");
 
-                int tempAccountNumber = Account.getAccountNumberCounter();
-                int tempUserCounter = Account.getUserIDCounter();
+            int tempAccountNumber = Account.getAccountNumberCounter();
+            int tempUserCounter = Account.getUserIDCounter();
 
-                wr.write(tempAccountNumber + "\n");
-                wr.write(tempUserCounter + "");
+            wr.write(tempAccountNumber + "\n");
+            wr.write(tempUserCounter + "");
 
-                wr.close();
-
-
-                //Write the account database values
-                FileOutputStream fos = new FileOutputStream("./data/AccountData");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(accountDatabase);
-                oos.close();
-                fos.close();
-
-            } catch (IOException ioe) {
-
-                ioe.printStackTrace();
-                //TODO: show as dialogue box
-                outputArea.append("Something went wrong while saving the data!!!");
-
-            }
+            wr.close();
 
 
-            //TODO: show as dialogue box?
-            outputArea.append("\nThank you for your business!");
-            outputArea.append("Please come again!");
-            exit(0);
+            //Write the account database values
+            FileOutputStream fos = new FileOutputStream("./data/AccountData");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(accountDatabase);
+            oos.close();
+            fos.close();
+
+        } catch (IOException ioe) {
+
+            ioe.printStackTrace();
+            outputArea.append("Something went wrong while saving the data!!!");
+
+        }
+
+        outputArea.append("\nThank you for your business!");
+        outputArea.append("Please come again!");
+        exit(0);
 
     }
 
