@@ -1,23 +1,27 @@
 package ezmoney.clap;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+/**
+ * Runs all the logic based on the users input.
+ * This classes modifies the bank accounts.
+ */
 public class Bank {
 
-    //Hold all the accounts in the bank
-    private ArrayList<Account> accountDatabase = new ArrayList<Account>();
+    /**
+     * Holds all the accounts in the bank.
+     */
+    private ArrayList<Account> accountDatabase = new ArrayList<>();
 
-    //Hold input file
-    private InputStream inputFile;
 
-
-    //Hold user data
+    /**
+     * Holds the users login data.
+     */
     private boolean login = false;
     private int userIdParsed = 0;
     private int pinParsed = 0;
@@ -27,13 +31,19 @@ public class Bank {
     private int defaultAdminUserID = 1000;
     private int defaultAdminPassword = 1234;
 
-    //Hold the database manipulators
+    /**
+     * Holds the account database and UI manipulator classes.
+     */
     private CustomerLogic customerLogic = new CustomerLogic();
     private AdminLogic adminLogic = new AdminLogic();
     private CustomerUI customerUI = new CustomerUI();
     private AdminUI adminUI = new AdminUI();
 
 
+    /**
+     * The default constructor.
+     * It attempts to first open the saved account data.
+     */
     public Bank() {
 
         //Deserialize file (load accountDatabase)
@@ -81,6 +91,13 @@ public class Bank {
 
     }
 
+
+    /**
+     * Attempts to log the user in based on their input credentials.
+     *
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param outputArea The output JPanel field for displaying results.
+     */
     public void login(JTextField[] fields, JTextArea outputArea) {
 
 
@@ -174,11 +191,21 @@ public class Bank {
     }
 
 
+    /**
+     * Checks too see if the user has successfully logged in.
+     *
+     * @return Tells the JPanel that the user is logged in to the system.
+     */
     public boolean isLoggedIn() {
         return login;
     }
 
 
+    /**
+     * Displays the selections the user can partake in.
+     *
+     * @param outputArea The output JPanel field for displaying results.
+     */
     public void showSelectionList(JTextArea outputArea) {
 
 
@@ -218,8 +245,18 @@ public class Bank {
     }
 
 
+    /**
+     * Sends the selection data to the correct methods based on if the user is an 'Admin' or 'Customer'.
+     *
+     * @param selection  The selection data from the input JPanel.
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param labels     The JPanel input fields which display labels to tell the user what to input.
+     * @param outputArea The output JPanel field for displaying results.
+     * @return Tells the JFrame whether the UI selection should be re-shown immediately.
+     */
     public boolean calculateInput(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
+        //Send the data to the correct method
         if (userType.equalsIgnoreCase("admin")) {
 
             return runAdmin(selection, fields, labels, outputArea);
@@ -233,6 +270,12 @@ public class Bank {
     }
 
 
+    /**
+     * Sets which item was selected by using data from the input JPanel.
+     *
+     * @param field      The JPanel input fields which text is retrieved from.
+     * @param outputArea The output JPanel field for displaying results.
+     */
     public void setSelected(JTextField field, JTextArea outputArea) {
 
         try {
@@ -246,6 +289,12 @@ public class Bank {
     }
 
 
+    /**
+     * Displays the login UI when the application first launches.
+     *
+     * @param fields The JPanel input fields which text is retrieved from.
+     * @param labels The output JPanel field for displaying results.
+     */
     public void setLoginUI(JTextField[] fields, JLabel[] labels) {
 
         labels[0].setText("Enter user type: ");
@@ -257,11 +306,19 @@ public class Bank {
         labels[2].setText("Enter pin: ");
         fields[2].setVisible(true);
 
-
     }
 
 
-    public boolean runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    /**
+     * Sends the input data to the correct method based on the users selected input.
+     *
+     * @param selection  The selection data from the input JPanel.
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param labels     The JPanel input fields which display labels to tell the user what to input.
+     * @param outputArea The output JPanel field for displaying results.
+     * @return Tells the JFrame whether the UI selection should be re-shown immediately.
+     */
+    private boolean runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         //Run AdminLogic code
         switch (selectionParsed) {
@@ -388,7 +445,16 @@ public class Bank {
         return false;
     }
 
-    public boolean runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    /**
+     * Sends the input data to the correct method based on the users selected input.
+     *
+     * @param selection  The selection data from the input JPanel.
+     * @param fields     The JPanel input fields which text is retrieved from.
+     * @param labels     The JPanel input fields which display labels to tell the user what to input.
+     * @param outputArea The output JPanel field for displaying results.
+     * @return Tells the JFrame whether the UI selection should be re-shown immediately.
+     */
+    private boolean runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         //Run customerLogic code
         switch (selectionParsed) {
@@ -476,6 +542,8 @@ public class Bank {
 
     /**
      * Ends the program and saves the database values.
+     *
+     * @param outputArea The output JPanel field for displaying results.
      */
     public void endProgram(JTextArea outputArea) {
 

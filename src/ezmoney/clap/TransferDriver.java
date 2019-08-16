@@ -8,29 +8,53 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class sets up the threads to transfer money
+ * This class sets up the threads to transfer money.
  */
 public class TransferDriver {
 
+    /**
+     * The max number of threads to create.
+     */
     private ExecutorService es = Executors.newFixedThreadPool(5);
 
+    /**
+     * Used to find accounts to transfer between.
+     */
     private Random rand = new Random();
 
+    /**
+     * The accounts that will transfer money between them.
+     */
     private Account withdrawAccount, depositAccount;
 
+    /**
+     * The number of money to move between accounts.
+     */
     private final double testAmount = 1_000;
 
+    /**
+     * The number of times money should be transferred.
+     */
     private final int numberOfTransactions = 100;
 
+    /**
+     * The amount of money in all accounts before and after the test.
+     */
     private double totalBefore;
     private double totalAfter;
 
 
+    /**
+     * The default constructor that begins the money transfer test.
+     *
+     * @param accountDatabase The list of all user accounts.
+     * @param outputArea      The output JPanel field for displaying results.
+     */
     public TransferDriver(ArrayList<Account> accountDatabase, JTextArea outputArea) {
 
+        //Break code if no accounts exist
         if (accountDatabase.size() == 0) {
 
-            //Break code if no accounts exist
             outputArea.append("\nWarning: No accounts exist for this calculation!\n");
             return;
         }
@@ -93,15 +117,24 @@ public class TransferDriver {
     }
 
 
-    public double getAccountTotal(ArrayList<Account> accountDatabase) {
+    /**
+     * Sums the total amount of money in all accounts.
+     *
+     * @param accountDatabase The list of all user accounts.
+     * @return Returns the total amount of money in all accounts.
+     */
+    private double getAccountTotal(ArrayList<Account> accountDatabase) {
 
+        //Hold total amount of money
         double totalMoneyInVault = 0;
 
+        //Add up money
         for (Account a : accountDatabase) {
 
             totalMoneyInVault += a.getBalance();
         }
 
+        //Return money total
         return totalMoneyInVault;
     }
 

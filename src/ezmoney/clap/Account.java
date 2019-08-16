@@ -198,10 +198,11 @@ public class Account implements Serializable {
     }
 
     /**
-     * Deposits money into account
+     * Deposits money into account.
+     * Synchronization prevents two threads from clashing.
      *
-     * @param moneyAmount Amount of money to be deposited
-     * @param transfer    Notifies if the account activity is a transfer type
+     * @param moneyAmount Amount of money to be deposited.
+     * @param transfer    Notifies if the account activity is a transfer type.
      */
     public synchronized void deposit(double moneyAmount, boolean transfer) {
 
@@ -223,10 +224,13 @@ public class Account implements Serializable {
     }
 
     /**
-     * Withdraws money from account
+     * Withdraws money from the account.
+     * Synchronization prevents two threads from clashing.
      *
-     * @param moneyAmount Amount of money to be withdrawn
-     * @param transfer    Notifies if the account activity is a transfer type
+     * @param moneyAmount Amount of money to be withdrawn.
+     * @param transfer    Notifies if the account activity is a transfer type.
+     * @param outputArea  The output JPanel field for displaying results.
+     * @return Tells the caller if the withdraw was successful.
      */
     public synchronized boolean withdraw(double moneyAmount, boolean transfer, JTextArea outputArea) {
 

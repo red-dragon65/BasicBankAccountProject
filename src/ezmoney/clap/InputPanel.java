@@ -5,18 +5,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is a custom JPanel takes handles the input panel in the GUI.
+ */
 public class InputPanel extends JPanel {
 
-    //1 button
+    /**
+     * Sends the input to the bank class.
+     */
     private JButton submitButton;
 
-    //4 input fields
-    private JLabel labels[];
-    private JTextField fields[];
+    /**
+     * The fields used for user input.
+     * These are mainly modified by the 'AdminUI' and 'CustomerUI' classes.
+     */
+    private JLabel[] labels;
+    private JTextField[] fields;
 
+    /**
+     * The action listener set in the 'BankFrame' class.
+     * It defines where the buttons send the input data.
+     */
     private ActionListener listener;
 
 
+    /**
+     * The default constructor.
+     * It initializes the components for this JPanel.
+     * In addition, it uses a grid layout to position the components.
+     */
     public InputPanel() {
 
         //Get the size
@@ -27,7 +44,7 @@ public class InputPanel extends JPanel {
         setPreferredSize(dim);
 
 
-        //Set the components
+        //Initialize the components
         submitButton = new JButton("Submit");
 
         labels = new JLabel[4];
@@ -46,10 +63,7 @@ public class InputPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //TODO: Do something
-
                 listener.actionPerformed(e);
-
             }
         });
 
@@ -59,7 +73,9 @@ public class InputPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
 
 
-        /***** first grid row (2 cells) *****/
+
+        /*---- first grid row ----*/
+
         gc.weightx = 1; //Controls how much space it takes up relative to other cells
         gc.weighty = 0.1;
 
@@ -83,9 +99,9 @@ public class InputPanel extends JPanel {
         add(fields[0], gc);
 
 
-        /***** second grid row *****/
 
-        //Top left cell
+        /*---- second grid row ----*/
+
         gc.gridx = 0; //Column
         gc.gridy = 1; //Row
         gc.anchor = GridBagConstraints.LINE_END;
@@ -104,9 +120,9 @@ public class InputPanel extends JPanel {
         add(fields[1], gc);
 
 
-        /***** third grid row *****/
 
-        //Top left cell
+        /*---- third grid row ----*/
+
         gc.gridx = 0; //Column
         gc.gridy = 2; //Row
         gc.anchor = GridBagConstraints.LINE_END;
@@ -125,7 +141,8 @@ public class InputPanel extends JPanel {
         add(fields[2], gc);
 
 
-        /***** fourth grid row *****/
+
+        /*---- fourth grid row ----*/
 
         //Top left cell
         gc.gridx = 0; //Column
@@ -146,7 +163,9 @@ public class InputPanel extends JPanel {
         add(fields[3], gc);
 
 
-        /***** third grid row *****/
+
+        /*---- fifth grid row ----*/
+
         gc.weightx = 1; //Controls how much space it takes up relative to other cells
         gc.weighty = 2;
 
@@ -165,22 +184,41 @@ public class InputPanel extends JPanel {
     }
 
 
+    /**
+     * Sets the listener for the button.
+     *
+     * @param listener The action performed by the button.
+     */
     public void setListener(ActionListener listener) {
 
         this.listener = listener;
     }
 
+    /**
+     * Used to allow data retrieval from the form.
+     * In addition, the fields are modified in other classes.
+     *
+     * @return Returns the text field for data retrieval
+     */
     public JTextField[] getFields() {
 
         return fields;
     }
 
+    /**
+     * Used to set the text for the form by other classes.
+     *
+     * @return Returns the labels for modification.
+     */
     public JLabel[] getLabels() {
 
         return labels;
     }
 
 
+    /**
+     * Sets the fields to display input for menu selection.
+     */
     public void selectionUI() {
 
         clearUI();
@@ -206,9 +244,14 @@ public class InputPanel extends JPanel {
     }
 
 
+    /**
+     * Resets all fields to by empty.
+     * This allows other classes to set them as desired.
+     */
     public void clearUI() {
 
-        //Clear out old UI
+        //Clear out old component data
+
         for (JTextField field : fields) {
             field.setVisible(false);
             field.setText("");
@@ -219,8 +262,14 @@ public class InputPanel extends JPanel {
         }
     }
 
+
+    /**
+     * Notifies the panel to refresh the component contents.
+     * Used after the components have been modified.
+     */
     public void refreshUI() {
 
+        //Refresh the JPanel
         this.revalidate();
         this.repaint();
     }

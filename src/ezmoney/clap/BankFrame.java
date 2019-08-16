@@ -5,22 +5,45 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The main frame that holds the input and output panels.
+ * In addition, the frame sends data between the panel and bank logic.
+ */
 public class BankFrame extends JFrame {
 
-    //Panels
+    /**
+     * The panels for input and output.
+     */
     private InputPanel inputPanel;
     private OutputPanel outputPanel;
+
+    /**
+     * The 'Bank' class that runs all logic.
+     */
     private Bank bank;
+
+    /**
+     * Checks to see if logic should run, or if the UI should update
+     */
     private boolean selection = true;
+
+    /**
+     * Allows changes to be saved to the database upon exit.
+     */
     private JButton exitButton;
 
+
+    /**
+     * The constructor that sets the output and input JPanel.
+     * In addition, it sets the listener action for buttons.
+     */
     public BankFrame() {
 
         //Set title
         super("Bank Account System");
 
+        //Create the bank
         bank = new Bank();
-
 
         //Set panel layout
         setLayout(new BorderLayout());
@@ -54,7 +77,7 @@ public class BankFrame extends JFrame {
                 } else {
 
                     //Pass the components to the correct method
-                    if (selection) {
+                    if (selection) { //---- UI update code
 
                         //Get the selection
                         bank.setSelected(inputPanel.getFields()[0], outputPanel.getOutputArea());
@@ -62,26 +85,28 @@ public class BankFrame extends JFrame {
                         //Update UI
                         inputPanel.clearUI();
 
+                        //Refresh the UI to display the selection input if the bank logic does not require any further input
                         if (bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea())) {
                             inputPanel.selectionUI();
                             bank.showSelectionList(outputPanel.getOutputArea());
                         }
 
+                        //Update the JPanel
                         inputPanel.refreshUI();
-                        outputPanel.refreshUI();
 
+                        //Switch to logic mode
                         selection = false;
 
-                    } else {
+                    } else { //---- Logic update code
 
                         //Run the logic
                         bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea());
 
-                        //Show the selection
+                        //Show the selection and update the JPanels
                         inputPanel.selectionUI();
                         bank.showSelectionList(outputPanel.getOutputArea());
-                        outputPanel.refreshUI();
 
+                        //Switch to UI mode
                         selection = true;
                     }
                 }
@@ -90,7 +115,10 @@ public class BankFrame extends JFrame {
             }
         });
 
+
+        //End the program and save data if the exit button is clicked
         exitButton = new JButton("Exit and Save Changes");
+
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,6 +136,7 @@ public class BankFrame extends JFrame {
         //Set login for panel
         bank.setLoginUI(inputPanel.getFields(), inputPanel.getLabels());
 
+        //Update the JPanel
         inputPanel.refreshUI();
     }
 
