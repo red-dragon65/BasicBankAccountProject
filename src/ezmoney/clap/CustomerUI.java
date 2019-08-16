@@ -5,8 +5,11 @@ import javax.swing.*;
 public class CustomerUI {
 
 
-
-    //TODO: Put comments
+    /**
+     * Sets up UI so user can delete account
+     * @param fields
+     * @param labels
+     */
     public void deleteAccount(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
@@ -15,7 +18,11 @@ public class CustomerUI {
 
     }
 
-    //TODO: Put comments
+    /**
+     * Sets up UI so user can create account
+     * @param fields
+     * @param labels
+     */
     public void createAccount(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
@@ -27,7 +34,11 @@ public class CustomerUI {
         labels[2].setText("Enter the account type (Personal, Business, Checking, Saving):");
     }
 
-    //TODO: Put comments
+    /**
+     * Sets up UI so user can deposit money
+     * @param fields
+     * @param labels
+     */
     public void deposit(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
@@ -37,7 +48,11 @@ public class CustomerUI {
         labels[1].setText("Enter the amount you wish to deposit:");
     }
 
-    //TODO: Put comments
+    /**
+     * Sets up UI so user can withdraw money
+     * @param fields
+     * @param labels
+     */
     public void withdraw(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
@@ -47,7 +62,11 @@ public class CustomerUI {
         labels[1].setText("Enter the amount you wish to withdraw:");
     }
 
-    //TODO: Put comments
+    /**
+     * Sets up UI so user can request account details
+     * @param fields
+     * @param labels
+     */
     public void requestAccountDetails(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
@@ -55,7 +74,11 @@ public class CustomerUI {
         labels[0].setText("Enter the accounts number that you want a summary for:");
     }
 
-    //TODO: Put comments
+    /**
+     * Sets up UI so user can transfer money to another account
+     * @param fields
+     * @param labels
+     */
     public void transferMoney(JTextField[] fields, JLabel[] labels) {
 
         fields[0].setVisible(true);
