@@ -30,8 +30,6 @@ import java.util.Scanner;
  */
 public class AdminLogic extends CustomerLogic {
 
-    protected Scanner consoleInput = new Scanner(System.in);
-
     /**
      * Displays all accounts in the database
      *
@@ -39,7 +37,7 @@ public class AdminLogic extends CustomerLogic {
      */
     public void listAllAccounts(ArrayList<Account> accountDatabase, JTextArea outputArea) {
 
-        outputArea.append("Complete list of accounts:\n");
+        outputArea.append("\nComplete list of accounts:\n");
 
         // Runs through every value in accountDatabase
         for (Account account : accountDatabase) {
@@ -65,7 +63,7 @@ public class AdminLogic extends CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
         for (Account account : accountDatabase) {
@@ -95,7 +93,7 @@ public class AdminLogic extends CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
         for (Account account : accountDatabase) {
@@ -188,13 +186,13 @@ public class AdminLogic extends CustomerLogic {
         try {
             //Get input from the user
             int userID = 0;
-            userID = Integer.parseInt(fields[0].getText());
+            userID = Integer.parseInt(fields[3].getText());
 
             return userID;
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input!");
+            outputArea.append("\nIncorrect input!\n");
         }
 
         return 0;

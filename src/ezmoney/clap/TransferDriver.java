@@ -22,23 +22,36 @@ public class TransferDriver {
 
     private final int numberOfTransactions = 100;
 
+    private double totalBefore;
+    private double totalAfter;
+
 
 
     public TransferDriver(ArrayList<Account> accountDatabase, JTextArea outputArea){
 
+        if(accountDatabase.size() == 0){
+
+            //Break code if no accounts exist
+            outputArea.append("\nWarning: No accounts exist for this calculation!\n");
+            return;
+        }
+
         //Output total money of all accounts
-        outputArea.append("" + getAccountTotal(accountDatabase));
+        totalBefore = getAccountTotal(accountDatabase);
+        outputArea.append("\nTotal money before test: " + totalBefore);
 
 
         //Transfer 1000 times
         for (int i = 0; i < numberOfTransactions; i++) {
 
+            int index = rand.nextInt(accountDatabase.size());
 
             //Get two different accounts
-            withdrawAccount = accountDatabase.get(rand.nextInt(accountDatabase.size()));
+            withdrawAccount = accountDatabase.get(index);
 
             do{
-                depositAccount = accountDatabase.get(rand.nextInt(accountDatabase.size()));
+                index = rand.nextInt(accountDatabase.size());
+                depositAccount = accountDatabase.get(index);
 
             }while(withdrawAccount == depositAccount);
 
@@ -63,7 +76,21 @@ public class TransferDriver {
 
 
         //Output total money of all accounts
-        outputArea.append("" + getAccountTotal(accountDatabase));
+        totalAfter = getAccountTotal(accountDatabase);
+        outputArea.append("\n Total money after test: " + totalAfter);
+
+
+        //Do total comparison
+        if(totalBefore == totalAfter){
+            outputArea.append("\n\nThe total money before: " + totalBefore);
+            outputArea.append("\nThe total money after: " + totalAfter);
+            outputArea.append("\nThe test was successful!");
+        }else{
+
+            outputArea.append("\n\nThe total money before: " + totalBefore);
+            outputArea.append("\nThe total money after: " + totalAfter);
+            outputArea.append("\nThe test FAILED!");
+        }
     }
 
 

@@ -12,6 +12,7 @@ public class BankFrame extends JFrame {
     private OutputPanel outputPanel;
     private Bank bank;
     private boolean selection = true;
+    private JButton exitButton;
 
     public BankFrame(){
 
@@ -20,8 +21,11 @@ public class BankFrame extends JFrame {
 
         bank = new Bank();
 
-        //Set frame values
+
+        //Set panel layout
         setLayout(new BorderLayout());
+
+        //Set frame values
         setSize(1000, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -35,7 +39,7 @@ public class BankFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(bank.isLoggedIn() == false){
+                if(!bank.isLoggedIn()){
 
                     //Login using field input data
                     bank.login(inputPanel.getFields(), outputPanel.getOutputArea());
@@ -57,7 +61,12 @@ public class BankFrame extends JFrame {
 
                         //Update UI
                         inputPanel.clearUI();
-                        bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea());
+
+                        if(bank.calculateInput(selection, inputPanel.getFields(), inputPanel.getLabels(), outputPanel.getOutputArea())) {
+                            inputPanel.selectionUI();
+                            bank.showSelectionList(outputPanel.getOutputArea());
+                        }
+
                         inputPanel.refreshUI();
                         outputPanel.refreshUI();
 
@@ -70,8 +79,8 @@ public class BankFrame extends JFrame {
 
                         //Show the selection
                         inputPanel.selectionUI();
-                        outputPanel.refreshUI();
                         bank.showSelectionList(outputPanel.getOutputArea());
+                        outputPanel.refreshUI();
 
                         selection = true;
                     }
@@ -81,9 +90,21 @@ public class BankFrame extends JFrame {
             }
         });
 
+        exitButton = new JButton("Exit and Save Changes");
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bank.endProgram(outputPanel.getOutputArea());
+            }
+        });
+
+
+
         //Add the panels
         add(inputPanel, BorderLayout.CENTER);
         add(outputPanel, BorderLayout.EAST);
+        add(exitButton, BorderLayout.SOUTH);
+
 
 
         //Set login for panel

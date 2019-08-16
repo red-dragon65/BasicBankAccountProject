@@ -171,18 +171,18 @@ Setup the button listeners:
 
 
 
-- Implement 'TransferWorker' class
-- Implement 'Runnable' for 'TransferWorker'
-- Allow 'TransferWorker' to transfer money from one account to another
-- Calculate the total amount from all bank accounts once transfer is complete
+* Implement 'TransferWorker' class
+* Implement 'Runnable' for 'TransferWorker'
+* Allow 'TransferWorker' to transfer money from one account to another
+* Calculate the total amount from all bank accounts once transfer is complete
 
-- Implement 'TransferDriver' class
-- Allow the class to create threads of 'TransferWorker' objects
+* Implement 'TransferDriver' class
+* Allow the class to create threads of 'TransferWorker' objects
 
 
 
 - Test GUI code
-- Test Multi-threading code
+* Test Multi-threading code
 
 
 
@@ -201,8 +201,7 @@ Mujtaba:
 - Create screen shot document
 
 Brandon:
-- Finish code split
-- Test code
+* Finish code split
 - Add comments to code
 - Create Design Document
 

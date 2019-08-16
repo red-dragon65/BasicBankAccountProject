@@ -20,8 +20,8 @@ public class AdminUI extends CustomerUI{
 
     public void getUserID(JTextField[] fields, JLabel[] labels) {
 
-        fields[0].setVisible(true);
+        fields[3].setVisible(true);
 
-        labels[0].setText("Enter the userID for the account you want:");
+        labels[3].setText("Enter the userID for the account you want:");
     }
 }

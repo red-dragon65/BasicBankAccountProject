@@ -191,7 +191,7 @@ public class Bank {
 
 
             //Show selection
-            outputArea.append("\nEnter a selection:");
+            outputArea.append("\n\nEnter a selection:");
             outputArea.append("\n1. List all accounts");
             outputArea.append("\n2. List Accounts using user id");
             outputArea.append("\n3. List Accounts using username");
@@ -202,14 +202,14 @@ public class Bank {
             outputArea.append("\n8. Request an account summary");
             outputArea.append("\n9. Request account transaction details");
             outputArea.append("\n10. Transfer money between accounts");
-            outputArea.append("\n11. Run multi-thread transfer test");
+            outputArea.append("\n11. Run multi-thread transfer test\n");
 
 
 
         } else if (userType.equalsIgnoreCase("customer")) {
 
             //Show selection
-            outputArea.append("\nEnter a selection:");
+            outputArea.append("\n\nEnter a selection:");
             outputArea.append("\n1. List my Accounts");
             outputArea.append("\n2. Delete my Account");
             outputArea.append("\n3. Create a new Account");
@@ -217,24 +217,25 @@ public class Bank {
             outputArea.append("\n5. Withdraw money from my account");
             outputArea.append("\n6. Request an account summary");
             outputArea.append("\n7. Request my account transaction details");
-            outputArea.append("\n8. Transfer money to another account");
+            outputArea.append("\n8. Transfer money to another account\n");
 
 
         }
     }
 
 
-    public void calculateInput(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    public boolean calculateInput(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         if (userType.equalsIgnoreCase("admin")) {
 
-            runAdmin(selection, fields, labels, outputArea);
+            return runAdmin(selection, fields, labels, outputArea);
 
         } else if (userType.equalsIgnoreCase("customer")) {
 
-            runCustomer(selection, fields, labels, outputArea);
+            return runCustomer(selection, fields, labels, outputArea);
         }
 
+        return false;
     }
 
 
@@ -266,20 +267,16 @@ public class Bank {
     }
 
 
-    public void runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    public boolean runAdmin(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         //Run AdminLogic code
         switch (selectionParsed) {
 
             case 1:
 
-                //List all accounts in the bank
-                if (!selection)
-                    adminLogic.listAllAccounts(accountDatabase, outputArea);
-                //else
-                    //adminUI.listAllAccounts(fields, labels, outputArea);
+                adminLogic.listAllAccounts(accountDatabase, outputArea);
+                return true;
 
-                break;
             case 2:
 
                 //This lists certain accounts based on user id
@@ -303,8 +300,11 @@ public class Bank {
                 //Delete the specified account
                 if (!selection)
                     adminLogic.deleteAccount(accountDatabase, fields, outputArea);
-                else
+                else{
                     adminUI.deleteAccount(fields, labels);
+                    adminUI.getUserID(fields, labels);
+                }
+
 
                 break;
             case 5:
@@ -321,8 +321,11 @@ public class Bank {
                 //Deposit money into the specified account
                 if (!selection)
                     adminLogic.deposit(accountDatabase, fields, outputArea);
-                else
+                else{
                     adminUI.deposit(fields, labels);
+                    adminUI.getUserID(fields, labels);
+                }
+
 
                 break;
             case 7:
@@ -330,8 +333,10 @@ public class Bank {
                 //Withdraw money from the specified account
                 if (!selection)
                     adminLogic.withdraw(accountDatabase, fields, outputArea);
-                else
+                else {
                     adminUI.withdraw(fields, labels);
+                    adminUI.getUserID(fields, labels);
+                }
 
                 break;
             case 8:
@@ -339,8 +344,10 @@ public class Bank {
                 //Get info from specified account
                 if (!selection)
                     adminLogic.requestAccountSummary(accountDatabase, fields, outputArea);
-                else
+                else {
                     adminUI.requestAccountDetails(fields, labels);
+                    adminUI.getUserID(fields, labels);
+                }
 
                 //adminUI.requestAccountSummary(fields, labels, outputArea);
 
@@ -350,8 +357,10 @@ public class Bank {
                 //Get transaction history from specified account
                 if (!selection)
                     adminLogic.requestTransactionDetails(accountDatabase, fields, outputArea);
-                else
+                else {
                     adminUI.requestAccountDetails(fields, labels);
+                    adminUI.getUserID(fields, labels);
+                }
 
                 //adminUI.requestAccountSummary(fields, labels, outputArea);
 
@@ -361,8 +370,10 @@ public class Bank {
                 //Send money from a specified account to another specified account
                 if (!selection)
                     adminLogic.transferMoney(accountDatabase, fields, outputArea);
-                else
+                else {
                     adminUI.transferMoney(fields, labels);
+                    adminUI.getUserID(fields, labels);
+                }
 
                 break;
 
@@ -371,17 +382,17 @@ public class Bank {
                 //Run the multi-thread money transfer test
                 TransferDriver multithreadDriver = new TransferDriver(accountDatabase, outputArea);
 
-
-                break;
+                return true;
 
             default:
                 outputArea.append("The entered selection was not in the list!");
         }
 
 
+        return false;
     }
 
-    public void runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
+    public boolean runCustomer(boolean selection, JTextField[] fields, JLabel[] labels, JTextArea outputArea) {
 
         //Run customerLogic code
         switch (selectionParsed) {
@@ -390,12 +401,9 @@ public class Bank {
             case 1:
 
                 //Show accounts tied to userId
-                if (!selection)
-                    customerLogic.listMyAccounts(accountDatabase, userIdParsed, outputArea);
-                //else
-                    //customerUI.listMyAccounts(fields, labels, outputArea);
+                customerLogic.listMyAccounts(accountDatabase, userIdParsed, outputArea);
+                return true;
 
-                break;
             case 2:
 
                 //Delete account specified
@@ -465,6 +473,7 @@ public class Bank {
 
         }
 
+        return false;
 
     }
 
@@ -474,12 +483,8 @@ public class Bank {
     /**
      * Ends the program and saves the database values.
      *
-     * @param value           Checks to see if input is 'exit'
-     * @param accountDatabase The ArrayList holding all customer accounts
      */
-    private static void endProgram(String value, ArrayList<Account> accountDatabase) {
-
-        if (value.equalsIgnoreCase("exit")) {
+    public void endProgram(JTextArea outputArea) {
 
 
             //Serialize to file (save accountDatabase)
@@ -508,16 +513,15 @@ public class Bank {
 
                 ioe.printStackTrace();
                 //TODO: show as dialogue box
-                System.out.println("Something went wrong while saving the data!!!");
+                outputArea.append("Something went wrong while saving the data!!!");
 
             }
 
 
             //TODO: show as dialogue box?
-            System.out.println("\nThank you for your business!");
-            System.out.println("Please come again!");
+            outputArea.append("\nThank you for your business!");
+            outputArea.append("Please come again!");
             exit(0);
-        }
 
     }
 

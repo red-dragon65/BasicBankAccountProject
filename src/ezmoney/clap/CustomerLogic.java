@@ -45,7 +45,7 @@ public class CustomerLogic {
 
         //TODO: Update to output to form instead of console
 //        System.out.println("Your Account(s):\n");
-        outputArea.append("Your Account(s):\n");
+        outputArea.append("\nYour Account(s):\n");
 
 
         //Display the users accounts
@@ -85,7 +85,7 @@ public class CustomerLogic {
 
             //TODO: this outputs to the form
             //System.out.println();
-            outputArea.append("Incorrect input! Returning to main menu.");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
 
         }
 
@@ -108,7 +108,7 @@ public class CustomerLogic {
 
                     //TODO: this outputs to the form
                     //System.out.println("The account was successfully deleted!");
-                    outputArea.append("The account was successfully deleted!");
+                    outputArea.append("\nThe account was successfully deleted!\n");
 
                     break;
 
@@ -117,8 +117,8 @@ public class CustomerLogic {
                     //TODO: this outputs to the form
                     //System.out.println("The account could not be deleted!");
                     //System.out.println("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
-                    outputArea.append("The account could not be deleted!");
-                    outputArea.append("It has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
+                    outputArea.append("\nThe account could not be deleted!");
+                    outputArea.append("\nIt has an outstanding balance of: " + String.format("%,.2f", a.getBalance()));
 
                     break;
                 }
@@ -130,7 +130,7 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            System.out.println("The specified account could not be found!");
+            System.out.println("\nThe specified account could not be found!\n");
         }
 
     }
@@ -163,7 +163,7 @@ public class CustomerLogic {
             //Get user id if necessary (AdminLogic)
             if (userId.equalsIgnoreCase("")) {
 
-                System.out.println("Enter an existing userID for this account (or 0 to generate a new id): ");
+                System.out.println("\nEnter an existing userID for this account (or 0 to generate a new id):\n");
                 userIDinput = Integer.parseInt(consoleInput.nextLine());
 
             } else {
@@ -174,7 +174,7 @@ public class CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
 
@@ -185,8 +185,8 @@ public class CustomerLogic {
         //Attempt to create the account
         if (enumType == null) {
 
-            outputArea.append("The correct account type was not found.\n");
-            outputArea.append("The account could not be created!\n");
+            outputArea.append("\nThe correct account type was not found.\n");
+            outputArea.append("\nThe account could not be created!\n");
 
         } else {
 
@@ -199,8 +199,8 @@ public class CustomerLogic {
                 accountDatabase.add(account);
 
                 //Notify the user
-                outputArea.append("The account has been created!\n");
-                outputArea.append("Account:\n");
+                outputArea.append("\nThe account has been created!\n");
+                outputArea.append("\nAccount:\n");
                 outputArea.append(account.print());
 
             } else {
@@ -212,8 +212,8 @@ public class CustomerLogic {
                 accountDatabase.add(account);
 
                 //Notify the user
-                outputArea.append("The account has been created!\n");
-                outputArea.append("Account info:\n");
+                outputArea.append("\nThe account has been created!\n");
+                outputArea.append("\nAccount info:\n");
                 outputArea.append(account.print());
             }
         }
@@ -240,7 +240,7 @@ public class CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
         //Flag if the account is found
@@ -256,8 +256,8 @@ public class CustomerLogic {
 
                 a.deposit(amount, false);
 
-                outputArea.append("The money was successfully deposited!\n");
-                outputArea.append("Your new balance is: " + String.format("%,.2f", a.getBalance()) + "\n");
+                outputArea.append("\nThe money was successfully deposited!\n");
+                outputArea.append("\nYour new balance is: " + String.format("%,.2f", a.getBalance()) + "\n");
                 break;
             }
 
@@ -267,7 +267,7 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            outputArea.append("The specified account could not be found!");
+            outputArea.append("\nThe specified account could not be found!\n");
         }
     }
 
@@ -292,7 +292,7 @@ public class CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
 
@@ -318,7 +318,7 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            outputArea.append("The specified account could not be found!\n");
+            outputArea.append("\nThe specified account could not be found!\n");
         }
 
 
@@ -343,7 +343,7 @@ public class CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
 
@@ -373,7 +373,7 @@ public class CustomerLogic {
         //Tell user the account was not found
         if (!found) {
 
-            outputArea.append("The specified account could not be found!");
+            outputArea.append("\nThe specified account could not be found!\n");
         }
 
 
@@ -403,7 +403,7 @@ public class CustomerLogic {
 
         } catch (Exception ex) {
 
-            outputArea.append("Incorrect input! Returning to main menu.\n");
+            outputArea.append("\nIncorrect input! Returning to main menu.\n");
         }
 
 
@@ -432,8 +432,8 @@ public class CustomerLogic {
         //See if the srcAccount was found
         if (srcAccount == null) {
 
-            outputArea.append("Could not find the source account!\n");
-            outputArea.append("The transfer was canceled!\n");
+            outputArea.append("\nCould not find the source account!\n");
+            outputArea.append("\nThe transfer was canceled!\n");
 
             return;
         }
@@ -441,8 +441,8 @@ public class CustomerLogic {
         //See if the dstAccount was found
         if (dstAccount == null) {
 
-            outputArea.append("Could not find the destination account!\n");
-            outputArea.append("The transfer was canceled!\n");
+            outputArea.append("\nCould not find the destination account!\n");
+            outputArea.append("\nThe transfer was canceled!\n");
 
             return;
         }
@@ -451,9 +451,9 @@ public class CustomerLogic {
         //See if enough money is in the src account
         if (srcAccount.getBalance() - transAmount < 0) {
 
-            outputArea.append("There is not enough money in the src account to transfer!\n");
-            outputArea.append("You requested: " + transAmount + "\n");
-            outputArea.append("You only have a balance of: " + String.format("%,.2f", srcAccount.getBalance()) + "\n");
+            outputArea.append("\nThere is not enough money in the src account to transfer!\n");
+            outputArea.append("\nYou requested: " + transAmount + "\n");
+            outputArea.append("\nYou only have a balance of: " + String.format("%,.2f", srcAccount.getBalance()) + "\n");
 
             return;
         }
@@ -463,7 +463,7 @@ public class CustomerLogic {
         srcAccount.withdraw(transAmount, true, outputArea);
         dstAccount.deposit(transAmount, true);
 
-        outputArea.append("The money was successfully transferred!");
+        outputArea.append("\nThe money was successfully transferred!\n");
 
 
     }

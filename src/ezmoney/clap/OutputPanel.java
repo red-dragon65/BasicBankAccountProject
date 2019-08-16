@@ -26,7 +26,5 @@ public class OutputPanel extends JPanel {
 
     public void refreshUI(){
 
-        this.revalidate();
-        this.repaint();
     }
 }

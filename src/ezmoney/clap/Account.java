@@ -234,8 +234,8 @@ public class Account implements Serializable {
         if (money - moneyAmount < 0) {
 
             //Notify user
-            outputArea.append("Cannot withdraw: $" + String.format("%,.2f", moneyAmount) + "!");
-            outputArea.append("The balance is too low!: $" + String.format("%,.2f", money));
+            outputArea.append("\nCannot withdraw: $" + String.format("%,.2f", moneyAmount) + "!");
+            outputArea.append("\nThe balance is too low!: $" + String.format("%,.2f", money));
 
             return false;
 
@@ -257,8 +257,8 @@ public class Account implements Serializable {
             }
 
             //Notify user
-            outputArea.append("The money was successfully withdrawn!");
-            outputArea.append("Your new balance is: $" + String.format("%,.2f", money));
+            outputArea.append("\nThe money was successfully withdrawn!");
+            outputArea.append("\nYour new balance is: $" + String.format("%,.2f", money));
         }
 
         return true;
@@ -361,7 +361,7 @@ public class Account implements Serializable {
 
         String formatMoney = String.format("%,.2f", money);
 
-        return "Name: " + name +
+        return "\nName: " + name +
                 "\nUser ID: " + userID +
                 "\nAccount number: " + accountNumber +
                 "\nAccount type: " + accountType +
@@ -378,7 +378,7 @@ public class Account implements Serializable {
     @Override
     public String toString() {
 
-        return "Name: " + name +
+        return "\nName: " + name +
                 "\nUser ID: " + userID +
                 "\nAccount number: " + accountNumber +
                 "\nAccount type: " + accountType +
